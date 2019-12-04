@@ -3,10 +3,9 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package views.icons;
+package views.geo;
 
 import game.Bee;
-import game.Bees;
 import game.Blossom;
 import game.Fly;
 import game.IGameObject;
@@ -20,7 +19,7 @@ import views.IViewFactory;
  *
  * @author juanangel
  */
-public class IconsFactory implements IViewFactory {
+public class GeoFactory implements IViewFactory {
     
     public IAWTGameView getView(IGameObject gObj, int length) throws Exception {
         
@@ -28,23 +27,23 @@ public class IconsFactory implements IViewFactory {
         
         
         if (gObj instanceof Fly){
-           view = new VIcon(gObj, "src/main/resources/images/fly.jpg", length); 
+           view = new VGeo(gObj, "src/main/resources/images/geo/fly.png", length); 
         }
-        else if (gObj instanceof Bees){
-           view = new VIcon(gObj, "src/main/resources/images/bee.jpg", length); 
+        else if (gObj instanceof Bee){
+           view = new VGeo(gObj, "src/main/resources/images/geo/bee.png", length); 
         }  
         else if (gObj instanceof RidingHood_2){
-           view = new VIcon(gObj, "src/main/resources/images/caperucita.jpg", length); 
+           view = new VGeo(gObj, "src/main/resources/images/geo/caperucita.png", length); 
         } 
         else if (gObj instanceof Spider){
-           view = new VIcon(gObj, "src/main/resources/images/spider.jpg", length); 
+           view = new VGeo(gObj, "src/main/resources/images/geo/spider.png", length); 
         } 
         else if (gObj instanceof Blossom){
            if (gObj.getValue() < 10){
-                view = new VIcon(gObj, "src/main/resources/images/dandelion2.jpg", length); 
+                view = new VGeo(gObj, "src/main/resources/images/geo/dandelion2.png", length); 
            }
            else {
-                view = new VIcon(gObj, "src/main/resources/images/clover.jpg",  length); 
+                view = new VGeo(gObj, "src/main/resources/images/geo/clover.png",  length); 
            }
         }
             

@@ -17,6 +17,7 @@ import java.awt.event.ActionListener;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
 import java.io.File;
+import java.net.URL;
 import java.util.ArrayList;
 import java.util.concurrent.ConcurrentLinkedQueue;
 
@@ -64,13 +65,19 @@ public class Game_2 extends JFrame implements KeyListener, ActionListener {
     int tick = 200;
     
     // Game Variables
+    int screenCounter = 0;
     ConcurrentLinkedQueue<IGameObject> gObjs = new ConcurrentLinkedQueue<IGameObject>();
     RidingHood_2 ridingHood = new RidingHood_2(new Position(0,0), 1, 1);
-    int screenCounter = 0;
+	Bees bees = new Bees(new Position(5,5), 1, 1, gObjs);
+    
+    
+    
+    
+    
     // Creamos el menú
     JMenuBar menuBar;
     JMenu menuVistas,menuCarga;
-    JMenuItem itColores, itFiguras, itCarga, itGuarda;
+    JMenuItem itColores, itFiguras,itGeo, itCarga, itGuarda;
 
     
     public Game_2(int CANVAS_WIDTH) throws Exception{
@@ -80,6 +87,7 @@ public class Game_2 extends JFrame implements KeyListener, ActionListener {
        
        // Game Initializations.
        gObjs.add(ridingHood);
+       gObjs.add(bees);
        loadNewBoard(0);
   
        // Window initializations.
@@ -102,6 +110,7 @@ public class Game_2 extends JFrame implements KeyListener, ActionListener {
        menuVistas = new JMenu("Vistas");
        itColores = new JMenuItem("Colores");
        itFiguras = new JMenuItem("Figuras");
+       itGeo = new JMenuItem("Geometria");
        menuCarga = new JMenu("Archivo");
        itGuarda = new JMenuItem("Guardar");
        itCarga = new JMenuItem("Cargar");
@@ -119,6 +128,14 @@ public class Game_2 extends JFrame implements KeyListener, ActionListener {
                new ActionListener(){  
                    public void actionPerformed(ActionEvent ae){
                 	   GameCanvas.setVistas(2);
+                       requestFocusInWindow();          
+                   }
+               }
+           );
+       itGeo.addActionListener(
+               new ActionListener(){  
+                   public void actionPerformed(ActionEvent ae){
+                	   GameCanvas.setVistas(3);
                        requestFocusInWindow();          
                    }
                }
@@ -173,6 +190,7 @@ public class Game_2 extends JFrame implements KeyListener, ActionListener {
        
        menuVistas.add(itColores);
        menuVistas.add(itFiguras);
+       menuVistas.add(itGeo);
        menuCarga.add(itCarga);
        menuCarga.add(itGuarda);
        menuBar.add(menuVistas);
@@ -224,12 +242,14 @@ public class Game_2 extends JFrame implements KeyListener, ActionListener {
         
         // Moving Caperucita
         ridingHood.moveToNextPosition();
+        bees.moveToNextPosition();
         
         // Check if Caperucita is in board limits
         setInLimits();
+       //setInLimitsBees();
         
         // Logic to change to a new screen.
-        if (processCell() == 1){
+        if (processCell() == 2){
             screenCounter++;
             ridingHood.incLifes(1);
             loadNewBoard(screenCounter);
@@ -239,6 +259,8 @@ public class Game_2 extends JFrame implements KeyListener, ActionListener {
         dataLabel.setText(ridingHood.toString());
         canvas.drawObjects(gObjs);
     }
+    
+    
 
     /*
     Procesa la celda en la que se encuentra caperucita.
@@ -248,11 +270,20 @@ public class Game_2 extends JFrame implements KeyListener, ActionListener {
     */    
     private int processCell(){
         Position rhPos = ridingHood.getPosition();
+        Position bePos = bees.getPosition();
         for (IGameObject gObj: gObjs){
-            if(gObj != ridingHood && rhPos.isEqual(gObj.getPosition())){
+            if(gObj != ridingHood && gObj != bees && rhPos.isEqual(gObj.getPosition())){
                 int v = ridingHood.getValue() + gObj.getValue();
                 ridingHood.setValue(v);
                 gObjs.remove(gObj);
+            }
+            else if(gObj != bees && bePos.isEqual(gObj.getPosition())){
+            	if(bePos.isEqual(rhPos)) {
+            		ridingHood.setValue(ridingHood.getValue()-1);
+            	}
+            	else {
+                gObjs.remove(gObj);
+                }
             }
         }
         return gObjs.size();
@@ -302,6 +333,25 @@ public class Game_2 extends JFrame implements KeyListener, ActionListener {
             ridingHood.position.y = lastBox;
         } 
     }
+    
+	/*private void setInLimitsBees(){
+	        
+	        int lastBox = (CANVAS_WIDTH/boxSize) - 1;
+	        
+	        if (bees.getPosition().getX() < 0){
+	        	bees = null;
+	        }
+	        else if ( bees.getPosition().getX() > lastBox ){
+	        	bees = null;
+	        }
+	        
+	        if (bees.getPosition().getY() < 0){
+	        	bees = null;
+	        }
+	        else if (bees.getPosition().getY() > lastBox){
+	            bees = null;
+	        } 
+	    }*/
     
     /*
     Carga un nuevo tablero

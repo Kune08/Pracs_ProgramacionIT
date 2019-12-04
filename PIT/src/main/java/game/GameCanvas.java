@@ -13,6 +13,7 @@ import views.AbstractGameView;
 import views.IAWTGameView;
 import views.IViewFactory;
 import views.boxes.BoxesFactory;
+import views.geo.GeoFactory;
 import views.icons.IconsFactory;
 
 /**
@@ -20,8 +21,11 @@ import views.icons.IconsFactory;
  * @author juanangel
  */
 public class GameCanvas extends JPanel {
+	
     public int vistas = 1;
+    
     static IViewFactory viewFactory = new BoxesFactory();
+    
     public static void setVistas(int vistas) {
     	switch(vistas) {
     	case 1: 
@@ -29,6 +33,9 @@ public class GameCanvas extends JPanel {
     		break;
     	case 2: 
     		viewFactory = new IconsFactory();
+    		break;
+    	case 3: 
+    		viewFactory = new GeoFactory();
     		break;
     	default: viewFactory = new BoxesFactory();
     	}
