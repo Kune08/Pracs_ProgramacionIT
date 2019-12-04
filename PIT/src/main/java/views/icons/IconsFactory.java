@@ -10,6 +10,7 @@ import game.Blossom;
 import game.Fly;
 import game.IGameObject;
 import game.RidingHood_1;
+import game.RidingHood_2;
 import game.Spider;
 import views.IAWTGameView;
 import views.IViewFactory;
@@ -31,7 +32,7 @@ public class IconsFactory implements IViewFactory {
         else if (gObj instanceof Bee){
            view = new VIcon(gObj, "src/main/resources/images/bee.jpg", length); 
         }  
-        else if (gObj instanceof RidingHood_1){
+        else if (gObj instanceof RidingHood_2){
            view = new VIcon(gObj, "src/main/resources/images/caperucita.jpg", length); 
         } 
         else if (gObj instanceof Spider){

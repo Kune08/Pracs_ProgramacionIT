@@ -32,7 +32,7 @@ public class GameObjectsJSONFactory {
         else if (typeLabel.equals("Fly")){
             gObj = new Fly(jObj);
         }
-        else if (typeLabel.equals("RidingHood")){
+        else if (typeLabel.equals("RidingHood_2")){
             gObj = new RidingHood_2(jObj);
         }        
         return gObj;

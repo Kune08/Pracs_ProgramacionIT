@@ -16,9 +16,15 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
+import java.io.File;
 import java.util.ArrayList;
 import java.util.concurrent.ConcurrentLinkedQueue;
+
+import javax.sound.sampled.AudioSystem;
+import javax.sound.sampled.Clip;
+import javax.sound.sampled.LineUnavailableException;
 import javax.swing.BorderFactory;
+import javax.swing.JFileChooser;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JMenu;
@@ -61,7 +67,6 @@ public class Game_2 extends JFrame implements KeyListener, ActionListener {
     ConcurrentLinkedQueue<IGameObject> gObjs = new ConcurrentLinkedQueue<IGameObject>();
     RidingHood_2 ridingHood = new RidingHood_2(new Position(0,0), 1, 1);
     int screenCounter = 0;
-    
     // Creamos el menú
     JMenuBar menuBar;
     JMenu menuVistas,menuCarga;
@@ -101,10 +106,28 @@ public class Game_2 extends JFrame implements KeyListener, ActionListener {
        itGuarda = new JMenuItem("Guardar");
        itCarga = new JMenuItem("Cargar");
        
+       itColores.addActionListener(
+               new ActionListener(){  
+                   public void actionPerformed(ActionEvent ae){
+                	   GameCanvas.setVistas(1);
+                       requestFocusInWindow();          
+                   }
+               }
+           );
+       
+       itFiguras.addActionListener(
+               new ActionListener(){  
+                   public void actionPerformed(ActionEvent ae){
+                	   GameCanvas.setVistas(2);
+                       requestFocusInWindow();          
+                   }
+               }
+           );
        itGuarda.addActionListener(
                new ActionListener(){
                    
                    public void actionPerformed(ActionEvent ae){
+                	   timer.stop();
                 	   String path = "src/main/resources/games/guardado.txt";
                        System.out.println("Saving objects");
                        if (gObjs != null){
@@ -122,6 +145,7 @@ public class Game_2 extends JFrame implements KeyListener, ActionListener {
        itCarga.addActionListener(
                new ActionListener(){  
                    public void actionPerformed(ActionEvent ae){
+                	   timer.start();
                 	   String path = "src/main/resources/games/guardado.txt";
                        System.out.println("Loading objects");
                        JSONArray jArray = FileUtilities.readJsonsFromFile(path);
@@ -130,7 +154,14 @@ public class Game_2 extends JFrame implements KeyListener, ActionListener {
                            for (int i = 0; i < jArray.length(); i++){
                                JSONObject jObj = jArray.getJSONObject(i);
                                String typeLabel = jObj.getString(TypeLabel);
-                               gObjs.add(GameObjectsJSONFactory.getGameObject(jObj)); //PREGUNTAR
+                               if(!(GameObjectsJSONFactory.getGameObject(jObj) instanceof RidingHood_2)) {
+                               gObjs.add(GameObjectsJSONFactory.getGameObject(jObj));}
+                               
+                               if(GameObjectsJSONFactory.getGameObject(jObj) instanceof RidingHood_2) {
+                            	  ridingHood = new RidingHood_2(new Position(0,0), GameObjectsJSONFactory.getGameObject(jObj).getValue(), GameObjectsJSONFactory.getGameObject(jObj).getLifes());
+                            	  ridingHood.setPosition(GameObjectsJSONFactory.getGameObject(jObj).getPosition());
+                            	  gObjs.add(ridingHood);
+                               }
                            }
                            printGameItems(); 
                            canvas.drawObjects(gObjs);
@@ -309,7 +340,7 @@ public class Game_2 extends JFrame implements KeyListener, ActionListener {
                 }
                 break;
             default:
-            	screenCounter=0;
+              screenCounter=0;
               gObjs.add(new Blossom(new Position(2,2), 10, 10));
               gObjs.add(new Blossom(new Position(2,8), 4, 10));
               gObjs.add(new Blossom(new Position(8,8), 10, 10));

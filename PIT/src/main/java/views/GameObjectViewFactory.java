@@ -10,6 +10,7 @@ import game.Blossom;
 import game.Fly;
 import game.IGameObject;
 import game.RidingHood_1;
+import game.RidingHood_2;
 import game.Spider;
 import java.awt.Color;
 
@@ -80,7 +81,7 @@ public class GameObjectViewFactory {
                 view = new VNumberedBox(gObj, length, Color.GREEN, "Clover"); 
            }
         }
-        else if (gObj instanceof RidingHood_1){
+        else if (gObj instanceof RidingHood_2){
            view = new VNumberedCircle(gObj, length, Color.red, "Hood"); 
         }  
         return view;        
@@ -104,7 +105,7 @@ public class GameObjectViewFactory {
         else if (gObj instanceof Bee){
            view = new VIcon(gObj, "src/main/resources/views/bee.jpg", length); 
         }  
-        else if (gObj instanceof RidingHood_1){
+        else if (gObj instanceof RidingHood_2){
            view = new VIcon(gObj, "src/main/resources/views/caperucita.jpg", length); 
         } 
         else if (gObj instanceof Spider){

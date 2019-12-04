@@ -20,8 +20,22 @@ import views.icons.IconsFactory;
  * @author juanangel
  */
 public class GameCanvas extends JPanel {
-      
-    IViewFactory viewFactory = new BoxesFactory();
+    public int vistas = 1;
+    static IViewFactory viewFactory = new BoxesFactory();
+    public static void setVistas(int vistas) {
+    	switch(vistas) {
+    	case 1: 
+    		viewFactory = new BoxesFactory();
+    		break;
+    	case 2: 
+    		viewFactory = new IconsFactory();
+    		break;
+    	default: viewFactory = new BoxesFactory();
+    	}
+	}
+
+	//IViewFactory viewFactory = new BoxesFactory();
+    //IViewFactory viewFactory = new IconsFactory();
     
     int editCol, editRow;
     int canvasEdge = 400;
