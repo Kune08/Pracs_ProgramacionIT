@@ -162,7 +162,7 @@ public class Game_2 extends JFrame implements KeyListener, ActionListener {
        itCarga.addActionListener(
                new ActionListener(){  
                    public void actionPerformed(ActionEvent ae){
-                	   timer.start();
+                	   
                 	   String path = "src/main/resources/games/guardado.txt";
                        System.out.println("Loading objects");
                        JSONArray jArray = FileUtilities.readJsonsFromFile(path);
@@ -171,17 +171,25 @@ public class Game_2 extends JFrame implements KeyListener, ActionListener {
                            for (int i = 0; i < jArray.length(); i++){
                                JSONObject jObj = jArray.getJSONObject(i);
                                String typeLabel = jObj.getString(TypeLabel);
-                               if(!(GameObjectsJSONFactory.getGameObject(jObj) instanceof RidingHood_2)) {
-                               gObjs.add(GameObjectsJSONFactory.getGameObject(jObj));}
+                               if(GameObjectsJSONFactory.getGameObject(jObj) instanceof Bees) {
+                              	  bees = new Bees(new Position(0,0), GameObjectsJSONFactory.getGameObject(jObj).getValue(), GameObjectsJSONFactory.getGameObject(jObj).getLifes(), gObjs);
+                              	  bees.setPosition(GameObjectsJSONFactory.getGameObject(jObj).getPosition());
+                              	  gObjs.add(bees);
+                                 }
+                               else if(!(GameObjectsJSONFactory.getGameObject(jObj) instanceof RidingHood_2)) {
+                            	   gObjs.add(GameObjectsJSONFactory.getGameObject(jObj));
+                               }
                                
-                               if(GameObjectsJSONFactory.getGameObject(jObj) instanceof RidingHood_2) {
+                               else if(GameObjectsJSONFactory.getGameObject(jObj) instanceof RidingHood_2) {
                             	  ridingHood = new RidingHood_2(new Position(0,0), GameObjectsJSONFactory.getGameObject(jObj).getValue(), GameObjectsJSONFactory.getGameObject(jObj).getLifes());
                             	  ridingHood.setPosition(GameObjectsJSONFactory.getGameObject(jObj).getPosition());
                             	  gObjs.add(ridingHood);
                                }
+                              
                            }
                            printGameItems(); 
                            canvas.drawObjects(gObjs);
+                           timer.start();
                        }
                        requestFocusInWindow();          
                    }
@@ -279,7 +287,7 @@ public class Game_2 extends JFrame implements KeyListener, ActionListener {
             }
             else if(gObj != bees && bePos.isEqual(gObj.getPosition())){
             	if(bePos.isEqual(rhPos)) {
-            		ridingHood.setValue(ridingHood.getValue()-1);
+            		ridingHood.setValue(ridingHood.getValue()-5);
             	}
             	else {
                 gObjs.remove(gObj);

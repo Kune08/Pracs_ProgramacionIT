@@ -1,5 +1,3 @@
-{"mode":0,"lifes":7,"GIT_type":"RidingHood_2","position":{"GIT_type":"Position","x":10,"y":3},"value":137}
-{"mode":0,"lifes":10,"GIT_type":"Blossom","position":{"GIT_type":"Position","x":2,"y":2},"value":10}
-{"mode":0,"lifes":10,"GIT_type":"Blossom","position":{"GIT_type":"Position","x":2,"y":8},"value":4}
-{"mode":0,"lifes":10,"GIT_type":"Blossom","position":{"GIT_type":"Position","x":8,"y":8},"value":10}
+{"mode":0,"lifes":22,"GIT_type":"RidingHood_2","position":{"GIT_type":"Position","x":9,"y":0},"value":77}
+{"mode":0,"lifes":1,"GIT_type":"Bees","position":{"GIT_type":"Position","x":8,"y":4},"value":1}
 {"mode":0,"lifes":10,"GIT_type":"Blossom","position":{"GIT_type":"Position","x":8,"y":2},"value":4}
