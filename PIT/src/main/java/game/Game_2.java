@@ -69,6 +69,7 @@ public class Game_2 extends JFrame implements KeyListener, ActionListener {
     ConcurrentLinkedQueue<IGameObject> gObjs = new ConcurrentLinkedQueue<IGameObject>();
     RidingHood_2 ridingHood = new RidingHood_2(new Position(0,0), 1, 1);
 	Bees bees = new Bees(new Position(5,5), 1, 1, gObjs);
+	Fly fly = new Fly(new Position(6,6), 1, 1, gObjs);
     
     
     
@@ -88,6 +89,7 @@ public class Game_2 extends JFrame implements KeyListener, ActionListener {
        // Game Initializations.
        gObjs.add(ridingHood);
        gObjs.add(bees);
+       gObjs.add(fly);
        loadNewBoard(0);
   
        // Window initializations.
@@ -191,6 +193,7 @@ public class Game_2 extends JFrame implements KeyListener, ActionListener {
                            canvas.drawObjects(gObjs);
                            timer.start();
                        }
+                       
                        requestFocusInWindow();          
                    }
                }
@@ -251,6 +254,7 @@ public class Game_2 extends JFrame implements KeyListener, ActionListener {
         // Moving Caperucita
         ridingHood.moveToNextPosition();
         bees.moveToNextPosition();
+        fly.moveToNextPosition();
         
         // Check if Caperucita is in board limits
         setInLimits();
@@ -279,6 +283,7 @@ public class Game_2 extends JFrame implements KeyListener, ActionListener {
     private int processCell(){
         Position rhPos = ridingHood.getPosition();
         Position bePos = bees.getPosition();
+        Position flyPos = fly.getPosition();
         for (IGameObject gObj: gObjs){
             if(gObj != ridingHood && gObj != bees && rhPos.isEqual(gObj.getPosition())){
                 int v = ridingHood.getValue() + gObj.getValue();
