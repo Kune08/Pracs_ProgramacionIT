@@ -6,7 +6,7 @@
 package views.geo;
 
 import game.Bee;
-import game.Bees;
+import game.Bee;
 import game.Blossom;
 import game.Fly;
 import game.IGameObject;
@@ -30,7 +30,7 @@ public class GeoFactory implements IViewFactory {
         if (gObj instanceof Fly){
            view = new VGeo(gObj, "src/main/resources/images/geo/fly.png", length); 
         }
-        else if (gObj instanceof Bees){
+        else if (gObj instanceof Bee){
            view = new VGeo(gObj, "src/main/resources/images/geo/bee.png", length); 
         }  
         else if (gObj instanceof RidingHood_2){

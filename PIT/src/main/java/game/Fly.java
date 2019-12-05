@@ -71,6 +71,10 @@ public class Fly extends AbstractGameObject{
         if (position.y != p.y){
             position.y = position.y > p.y? position.y-1:position.y+1;
         }
-    }   
+    } 
+    
+    public void printFly(){
+        System.out.println(this.toJSONObject());
+    }
  
 }

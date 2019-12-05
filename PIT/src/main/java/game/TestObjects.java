@@ -26,17 +26,17 @@ public class TestObjects {
         System.out.println();
 
         System.out.println("Bee ... ");
-        Bee bee = new Bee();
+        Bee bee = new Bee(new Position(1,1), 1,1);
         System.out.println(bee.toJSONObject());
         System.out.println();
         
         System.out.println("Fly ... ");
-        Fly fly = new Fly(new Position(1,1), 1);
+        Fly fly = new Fly(new Position(1,1), 1,1);
         System.out.println(fly.toJSONObject());
         System.out.println();
         
         System.out.println("Spider ... ");
-        Spider spider = new Spider(new Position(1,1), 1);
+        Spider spider = new Spider(new Position(1,1), 1,1);
         System.out.println(spider.toJSONObject());
         System.out.println();
          
@@ -56,7 +56,7 @@ public class TestObjects {
         System.out.println();
 
         System.out.println("Bees ... ");
-        Bee bee1 = new Bee(new Position(1,1), 1);
+        Bee bee1 = new Bee(new Position(1,1), 1,1);
         jObj = bee1.toJSONObject();
         System.out.println(jObj);
         Bee bee2 = new Bee(jObj);
@@ -72,7 +72,7 @@ public class TestObjects {
         System.out.println();
         
         System.out.println("Spiders ... ");
-        Spider sp1 = new Spider(new Position(1,1), 1);
+        Spider sp1 = new Spider(new Position(1,1), 1,1);
         jObj = sp1.toJSONObject();
         System.out.println(jObj);
         Spider sp2 = new Spider(jObj);

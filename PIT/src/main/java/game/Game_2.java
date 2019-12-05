@@ -69,8 +69,8 @@ public class Game_2 extends JFrame implements KeyListener, ActionListener {
     
     ConcurrentLinkedQueue<IGameObject> gObjs = new ConcurrentLinkedQueue<IGameObject>();
     RidingHood_2 ridingHood = new RidingHood_2(new Position(0,0), 1, 1);
-	Bees bees = new Bees(new Position(5,5), 1, 1, gObjs);
-	Fly fly = new Fly(new Position(6,6), 1, 1, gObjs);
+	Bee bees = new Bee(new Position(5,5), 1, 1, gObjs);
+	Spider spider = new Spider(new Position(6,6), 1, 1, gObjs);
     
     
     
@@ -90,7 +90,7 @@ public class Game_2 extends JFrame implements KeyListener, ActionListener {
        // Game Initializations.
        gObjs.add(ridingHood);
        gObjs.add(bees);
-       gObjs.add(fly);
+       gObjs.add(spider);
        loadNewBoard(0);
   
        // Window initializations.
@@ -175,8 +175,8 @@ public class Game_2 extends JFrame implements KeyListener, ActionListener {
                            for (int i = 0; i < jArray.length(); i++){
                                JSONObject jObj = jArray.getJSONObject(i);
                                String typeLabel = jObj.getString(TypeLabel);
-                               if(GameObjectsJSONFactory.getGameObject(jObj) instanceof Bees) {
-                              	  bees = new Bees(new Position(0,0), GameObjectsJSONFactory.getGameObject(jObj).getValue(), GameObjectsJSONFactory.getGameObject(jObj).getLifes(), gObjs);
+                               if(GameObjectsJSONFactory.getGameObject(jObj) instanceof Bee) {
+                              	  bees = new Bee(new Position(0,0), GameObjectsJSONFactory.getGameObject(jObj).getValue(), GameObjectsJSONFactory.getGameObject(jObj).getLifes(), gObjs);
                               	  bees.setPosition(GameObjectsJSONFactory.getGameObject(jObj).getPosition());
                               	  gObjs.add(bees);
                                  }
@@ -256,7 +256,7 @@ public class Game_2 extends JFrame implements KeyListener, ActionListener {
         // Moving Caperucita
         ridingHood.moveToNextPosition();
         bees.moveToNextPosition();
-        fly.moveToNextPosition();
+        spider.moveToNextPosition();
         
         // Check if Caperucita is in board limits
         setInLimits();
@@ -285,20 +285,28 @@ public class Game_2 extends JFrame implements KeyListener, ActionListener {
     private int processCell(){
         Position rhPos = ridingHood.getPosition();
         Position bePos = bees.getPosition();
-        Position flyPos = fly.getPosition();
+        Position spiPos = spider.getPosition();
         for (IGameObject gObj: gObjs){
-            if(gObj != ridingHood && gObj != bees && rhPos.isEqual(gObj.getPosition())){
+            if(gObj != ridingHood && gObj != bees && gObj !=spider && rhPos.isEqual(gObj.getPosition())){
                 int v = ridingHood.getValue() + gObj.getValue();
                 ridingHood.setValue(v);
                 gObjs.remove(gObj);
             }
-            else if(gObj != bees && bePos.isEqual(gObj.getPosition())){
+            else if(gObj != bees && gObj !=spider && bePos.isEqual(gObj.getPosition())){
             	if(bePos.isEqual(rhPos)) {
             		ridingHood.setValue(ridingHood.getValue()-5);
+            		System.out.println("Has chocado contra una abeja. -5 puntos");
             	}
             	else {
                 gObjs.remove(gObj);
                 }
+            }
+            else if(gObj == spider && spiPos.isEqual(gObj.getPosition())){
+            	if(spiPos.isEqual(rhPos)) {
+            		ridingHood.setValue(ridingHood.getValue()-10);
+            		System.out.println("Una araña te ha pillado. -10 puntos");
+            		gObjs.remove(spider);
+            	}
             }
         }
         return gObjs.size();

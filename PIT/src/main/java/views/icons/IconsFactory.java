@@ -6,7 +6,7 @@
 package views.icons;
 
 import game.Bee;
-import game.Bees;
+import game.Bee;
 import game.Blossom;
 import game.Fly;
 import game.IGameObject;
@@ -30,7 +30,7 @@ public class IconsFactory implements IViewFactory {
         if (gObj instanceof Fly){
            view = new VIcon(gObj, "src/main/resources/images/fly.jpg", length); 
         }
-        else if (gObj instanceof Bees){
+        else if (gObj instanceof Bee){
            view = new VIcon(gObj, "src/main/resources/images/bee.jpg", length); 
         }  
         else if (gObj instanceof RidingHood_2){
