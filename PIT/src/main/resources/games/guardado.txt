@@ -1,5 +1,11 @@
+<<<<<<< Updated upstream
 {"mode":0,"lifes":1,"GIT_type":"RidingHood_2","position":{"GIT_type":"Position","x":0,"y":0},"value":1}
 {"mode":0,"lifes":1,"GIT_type":"Bees","position":{"GIT_type":"Position","x":2,"y":7},"value":1}
 {"mode":0,"lifes":10,"GIT_type":"Blossom","position":{"GIT_type":"Position","x":2,"y":8},"value":4}
 {"mode":0,"lifes":10,"GIT_type":"Blossom","position":{"GIT_type":"Position","x":8,"y":8},"value":10}
 {"mode":0,"lifes":10,"GIT_type":"Blossom","position":{"GIT_type":"Position","x":8,"y":2},"value":4}
+=======
+{"mode":0,"lifes":4,"GIT_type":"RidingHood_2","position":{"GIT_type":"Position","x":0,"y":10},"value":11}
+{"mode":0,"lifes":1,"GIT_type":"Bees","position":{"GIT_type":"Position","x":8,"y":3},"value":1}
+{"mode":0,"lifes":10,"GIT_type":"Blossom","position":{"GIT_type":"Position","x":8,"y":8},"value":10}
+>>>>>>> Stashed changes
