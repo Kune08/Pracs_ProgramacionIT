@@ -31,7 +31,6 @@ public class Bee extends AbstractGameObject {
     }
     
     Bee(JSONObject jObj) {
-        
         super(jObj);    
     } 
     

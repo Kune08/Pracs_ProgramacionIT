@@ -69,8 +69,9 @@ public class Game_2 extends JFrame implements KeyListener, ActionListener {
     
     ConcurrentLinkedQueue<IGameObject> gObjs = new ConcurrentLinkedQueue<IGameObject>();
     RidingHood_2 ridingHood = new RidingHood_2(new Position(0,0), 1, 1);
-	Bee bees = new Bee(new Position(5,5), 1, 1, gObjs);
-	Spider spider = new Spider(new Position(6,6), 1, 1, gObjs);
+	Bee bees = new Bee(new Position(0,11), 1, 1, gObjs);
+	Fly fly = new Fly(new Position(11,11), 1, 1, gObjs);
+	Spider spider = new Spider(new Position(11,0), 1, 1, gObjs);
     
     
     
@@ -90,6 +91,7 @@ public class Game_2 extends JFrame implements KeyListener, ActionListener {
        // Game Initializations.
        gObjs.add(ridingHood);
        gObjs.add(bees);
+       gObjs.add(fly);
        gObjs.add(spider);
        loadNewBoard(0);
   
@@ -180,6 +182,16 @@ public class Game_2 extends JFrame implements KeyListener, ActionListener {
                               	  bees.setPosition(GameObjectsJSONFactory.getGameObject(jObj).getPosition());
                               	  gObjs.add(bees);
                                  }
+                               else if(GameObjectsJSONFactory.getGameObject(jObj) instanceof Fly) {
+                               	  fly = new Fly(new Position(0,0), GameObjectsJSONFactory.getGameObject(jObj).getValue(), GameObjectsJSONFactory.getGameObject(jObj).getLifes(), gObjs);
+                               	  fly.setPosition(GameObjectsJSONFactory.getGameObject(jObj).getPosition());
+                               	  gObjs.add(fly);
+                                }
+                               else if(GameObjectsJSONFactory.getGameObject(jObj) instanceof Spider) {
+                                	  spider = new Spider(new Position(0,0), GameObjectsJSONFactory.getGameObject(jObj).getValue(), GameObjectsJSONFactory.getGameObject(jObj).getLifes(), gObjs);
+                                	  spider.setPosition(GameObjectsJSONFactory.getGameObject(jObj).getPosition());
+                                	  gObjs.add(spider);
+                                }
                                else if(!(GameObjectsJSONFactory.getGameObject(jObj) instanceof RidingHood_2)) {
                             	   gObjs.add(GameObjectsJSONFactory.getGameObject(jObj));
                                }
@@ -255,15 +267,18 @@ public class Game_2 extends JFrame implements KeyListener, ActionListener {
         
         // Moving Caperucita
         ridingHood.moveToNextPosition();
-        bees.moveToNextPosition();
-        spider.moveToNextPosition();
+        if(screenCounter==1) {bees.moveToNextPosition();}
+        if(screenCounter==2) {fly.moveToNextPosition();}
+        if(screenCounter==3) {spider.moveToNextPosition();}
+        
+        
         
         // Check if Caperucita is in board limits
         setInLimits();
        //setInLimitsBees();
         
         // Logic to change to a new screen.
-        if (processCell() == 2){
+        if (processCell() <= 4){
             screenCounter++;
             ridingHood.incLifes(1);
             loadNewBoard(screenCounter);
@@ -286,13 +301,14 @@ public class Game_2 extends JFrame implements KeyListener, ActionListener {
         Position rhPos = ridingHood.getPosition();
         Position bePos = bees.getPosition();
         Position spiPos = spider.getPosition();
+        Position flyPos = fly.getPosition();
         for (IGameObject gObj: gObjs){
-            if(gObj != ridingHood && gObj != bees && gObj !=spider && rhPos.isEqual(gObj.getPosition())){
+            if(gObj != ridingHood && gObj != bees && gObj !=spider && gObj !=fly  && rhPos.isEqual(gObj.getPosition())){
                 int v = ridingHood.getValue() + gObj.getValue();
                 ridingHood.setValue(v);
                 gObjs.remove(gObj);
             }
-            else if(gObj != bees && gObj !=spider && bePos.isEqual(gObj.getPosition())){
+            else if(gObj != bees && gObj !=spider && gObj !=fly && bePos.isEqual(gObj.getPosition())){
             	if(bePos.isEqual(rhPos)) {
             		ridingHood.setValue(ridingHood.getValue()-5);
             		System.out.println("Has chocado contra una abeja. -5 puntos");
@@ -301,11 +317,18 @@ public class Game_2 extends JFrame implements KeyListener, ActionListener {
                 gObjs.remove(gObj);
                 }
             }
-            else if(gObj == spider && spiPos.isEqual(gObj.getPosition())){
+            else if(gObj == spider && gObj !=fly && spiPos.isEqual(gObj.getPosition())){
             	if(spiPos.isEqual(rhPos)) {
             		ridingHood.setValue(ridingHood.getValue()-10);
             		System.out.println("Una araña te ha pillado. -10 puntos");
             		gObjs.remove(spider);
+            	}
+            }
+            else if(gObj == fly && flyPos.isEqual(gObj.getPosition())){
+            	if(flyPos.isEqual(rhPos)) {
+            		ridingHood.setValue(ridingHood.getValue()-10);
+            		System.out.println("Una mosca te ha pillado. -20 puntos");
+            		gObjs.remove(fly);
             	}
             }
         }
@@ -411,6 +434,19 @@ public class Game_2 extends JFrame implements KeyListener, ActionListener {
                 if (jArray1 != null){
                     for (int i = 0; i < jArray1.length(); i++){
                         JSONObject jObj = jArray1.getJSONObject(i);
+                        String typeLabel = jObj.getString(TypeLabel);
+                        gObjs.add(GameObjectsJSONFactory.getGameObject(jObj));
+                    }                       
+                }
+                break;
+            case 3:
+            	pantallas++;
+                String path2 = "src/main/resources/games/nivel3.txt";
+                System.out.println("Loading objects");
+                JSONArray jArray2 = FileUtilities.readJsonsFromFile(path2);
+                if (jArray2 != null){
+                    for (int i = 0; i < jArray2.length(); i++){
+                        JSONObject jObj = jArray2.getJSONObject(i);
                         String typeLabel = jObj.getString(TypeLabel);
                         gObjs.add(GameObjectsJSONFactory.getGameObject(jObj));
                     }                       

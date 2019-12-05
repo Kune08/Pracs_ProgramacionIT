@@ -29,9 +29,6 @@ public class GameObjectsJSONFactory {
         else if (typeLabel.equals("Bee")){
             gObj = new Bee(jObj);
         }
-        else if (typeLabel.equals("Bees")){
-            gObj = new Bee(jObj);
-        }
         else if (typeLabel.equals("Fly")){
             gObj = new Fly(jObj);
         }
