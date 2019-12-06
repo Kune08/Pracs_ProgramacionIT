@@ -40,9 +40,6 @@ public class GameCanvas extends JPanel {
     	default: viewFactory = new BoxesFactory();
     	}
 	}
-
-	//IViewFactory viewFactory = new BoxesFactory();
-    //IViewFactory viewFactory = new IconsFactory();
     
     int editCol, editRow;
     int canvasEdge = 400;

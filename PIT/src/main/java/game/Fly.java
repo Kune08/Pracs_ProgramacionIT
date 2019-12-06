@@ -47,14 +47,18 @@ public class Fly extends AbstractGameObject{
     
     public Position moveToNextPosition(){
         
-        ArrayList<RidingHood_2> blossoms = getBlossoms();
-        IGameObject target = AbstractGameObject.getClosest(this, blossoms);
-        approachTo(target.getPosition());
+        position = getRandomPosition(10,10);
        
         return position;       
     }  
     
-    private ArrayList<RidingHood_2> getBlossoms(){
+    public Position getRandomPosition(int mX, int mY){
+        int x = (int)(mX * Math.random());
+        int y = (int)(mY * Math.random());
+        return new Position(x, y);
+    }
+    
+   /* private ArrayList<RidingHood_2> getBlossoms(){
         ArrayList<RidingHood_2> blossoms = new ArrayList<RidingHood_2>();
         for (IGameObject obj: gObjs){
             if (obj instanceof RidingHood_2){
@@ -71,7 +75,8 @@ public class Fly extends AbstractGameObject{
         if (position.y != p.y){
             position.y = position.y > p.y? position.y-1:position.y+1;
         }
-    } 
+    } */
+    
     
     public void printFly(){
         System.out.println(this.toJSONObject());

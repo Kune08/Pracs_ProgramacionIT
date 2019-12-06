@@ -64,6 +64,8 @@ public class Position implements IToJsonObject {
         return y;
     }
     
+    
+    
     public boolean isEqual(Position p){
         if (p == null) {
             return false;

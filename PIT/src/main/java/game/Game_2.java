@@ -60,7 +60,7 @@ public class Game_2 extends JFrame implements KeyListener, ActionListener {
     JPanel canvasFrame;
     JLabel dataLabel;
     int screenCounter = 0;
-    int pantallas = 1;
+
     // Timer
     Timer timer;
     int tick = 200;
@@ -69,13 +69,9 @@ public class Game_2 extends JFrame implements KeyListener, ActionListener {
     
     ConcurrentLinkedQueue<IGameObject> gObjs = new ConcurrentLinkedQueue<IGameObject>();
     RidingHood_2 ridingHood = new RidingHood_2(new Position(0,0), 1, 1);
-	Bee bees = new Bee(new Position(0,11), 1, 1, gObjs);
+	Bee bees = bees = new Bee(new Position(0,11), 1, 1, gObjs);  
 	Fly fly = new Fly(new Position(11,11), 1, 1, gObjs);
 	Spider spider = new Spider(new Position(11,0), 1, 1, gObjs);
-    
-    
-    
-    
     
     // Creamos el menú
     JMenuBar menuBar;
@@ -405,15 +401,13 @@ public class Game_2 extends JFrame implements KeyListener, ActionListener {
     private void loadNewBoard(int counter){
         switch(counter){
             case 0: 
-              pantallas++;
               gObjs.add(new Blossom(new Position(2,2), 10, 10));
               gObjs.add(new Blossom(new Position(2,8), 4, 10));
               gObjs.add(new Blossom(new Position(8,8), 10, 10));
               gObjs.add(new Blossom(new Position(8,2), 4, 10));
-              System.out.println(pantallas);
               break;
             case 1:
-            	pantallas++;
+
                 String path = "src/main/resources/games/nivel1.txt";
                 System.out.println("Loading objects");
                 JSONArray jArray = FileUtilities.readJsonsFromFile(path);
@@ -427,7 +421,6 @@ public class Game_2 extends JFrame implements KeyListener, ActionListener {
                 break;
                 
             case 2:
-            	pantallas++;
                 String path1 = "src/main/resources/games/nivel2.txt";
                 System.out.println("Loading objects");
                 JSONArray jArray1 = FileUtilities.readJsonsFromFile(path1);
@@ -440,7 +433,6 @@ public class Game_2 extends JFrame implements KeyListener, ActionListener {
                 }
                 break;
             case 3:
-            	pantallas++;
                 String path2 = "src/main/resources/games/nivel3.txt";
                 System.out.println("Loading objects");
                 JSONArray jArray2 = FileUtilities.readJsonsFromFile(path2);
