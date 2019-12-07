@@ -288,7 +288,7 @@ public class Game_2 extends JFrame implements KeyListener, ActionListener {
        //setInLimitsBees();
         
         // Logic to change to a new screen.
-        if (processCell() <= 4){
+        if (processCell() <= 5){
             screenCounter++;
             ridingHood.incLifes(1);
             loadNewBoard(screenCounter);
