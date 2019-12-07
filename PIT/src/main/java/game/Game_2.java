@@ -75,6 +75,7 @@ public class Game_2 extends JFrame implements KeyListener, ActionListener {
 	//Fly fly = null;
 	Spider spider = new Spider(new Position(11,0), 1, 1, gObjs);
 	//Spider spider = null;
+	Stone stone = new Stone(getRandomPosition(10,10));
     
     // Creamos el menú
     JMenuBar menuBar;
@@ -92,6 +93,7 @@ public class Game_2 extends JFrame implements KeyListener, ActionListener {
        gObjs.add(bees);
        gObjs.add(fly);
        gObjs.add(spider);
+       gObjs.add(stone);
        loadNewBoard(0);
        
   
@@ -193,9 +195,17 @@ public class Game_2 extends JFrame implements KeyListener, ActionListener {
                                 	  spider.setPosition(GameObjectsJSONFactory.getGameObject(jObj).getPosition());
                                 	  gObjs.add(spider);
                                 }
-                               else if(!(GameObjectsJSONFactory.getGameObject(jObj) instanceof RidingHood_2)) {
-                            	   gObjs.add(GameObjectsJSONFactory.getGameObject(jObj));
+                               
+                               //q pasa con la piedra?????????????
+                               else if(GameObjectsJSONFactory.getGameObject(jObj) instanceof Stone) {
+                            	  stone = new Stone(new Position(0,0), GameObjectsJSONFactory.getGameObject(jObj).getValue(), GameObjectsJSONFactory.getGameObject(jObj).getLifes());
+                             	  stone.setPosition(GameObjectsJSONFactory.getGameObject(jObj).getPosition());
+                             	  gObjs.add(stone);
+                             	  System.out.println("Priedra creada");
                                }
+                               /*else if(!(GameObjectsJSONFactory.getGameObject(jObj) instanceof RidingHood_2)) {
+                            	   gObjs.add(GameObjectsJSONFactory.getGameObject(jObj));
+                               }*/
                                
                                else if(GameObjectsJSONFactory.getGameObject(jObj) instanceof RidingHood_2) {
                             	  ridingHood = new RidingHood_2(new Position(0,0), GameObjectsJSONFactory.getGameObject(jObj).getValue(), GameObjectsJSONFactory.getGameObject(jObj).getLifes());
@@ -303,7 +313,7 @@ public class Game_2 extends JFrame implements KeyListener, ActionListener {
         Position spiPos = spider.getPosition();
         Position flyPos = fly.getPosition();
         for (IGameObject gObj: gObjs){
-            if(gObj != ridingHood && gObj != bees && gObj !=spider && gObj !=fly  && rhPos.isEqual(gObj.getPosition())){
+            if(gObj != ridingHood && gObj != bees && gObj !=spider && gObj !=fly && !(gObj instanceof Stone)  && rhPos.isEqual(gObj.getPosition())){
                 int v = ridingHood.getValue() + gObj.getValue();
                 ridingHood.setValue(v);
                 gObjs.remove(gObj);
@@ -377,8 +387,24 @@ public class Game_2 extends JFrame implements KeyListener, ActionListener {
         }
         else if (ridingHood.getPosition().getY() > lastBox){
             ridingHood.position.y = lastBox;
-        } 
+        }
+        
+        else if(ridingHood.getPosition().getX() == stone.getPosition().getX() && ridingHood.getPosition().getY() == stone.getPosition().getY() ) {
+            if(lastKey==DOWN_KEY) {
+                ridingHood.position.y=stone.getPosition().getY()-1;
+            }
+            else if(lastKey==UP_KEY) {
+                ridingHood.position.y=stone.getPosition().getY()+1; 
+            }
+            if(lastKey==RIGTH_KEY) {
+                ridingHood.position.x=stone.getPosition().getX()-1;
+            }
+            else if(lastKey==LEFT_KEY) {
+                ridingHood.position.x=stone.getPosition().getX()+1;
+            }
+        }
     }
+    
     
 	/*private void setInLimitsBees(){
 	        
@@ -464,7 +490,11 @@ public class Game_2 extends JFrame implements KeyListener, ActionListener {
         }
     }
     
-    
+    public Position getRandomPosition(int mX, int mY){
+        int x = (int)(mX * Math.random());
+        int y = (int)(mY * Math.random());
+        return new Position(x, y);
+    }
     
     public static void main(String [] args) throws Exception{
        Game_2 gui = new Game_2(480);

@@ -10,7 +10,10 @@ import game.Blossom;
 import game.Fly;
 import game.IGameObject;
 import game.RidingHood_1;
+import game.RidingHood_2;
 import game.Spider;
+import game.Stone;
+
 import java.awt.Color;
 import views.IAWTGameView;
 import views.IViewFactory;
@@ -34,9 +37,12 @@ public class BoxesFactory implements IViewFactory {
         else if (gObj instanceof Spider){
            view = new VNumberedBox(gObj, length, Color.black, "Spider");
         }
-        else if (gObj instanceof RidingHood_1){
+        else if (gObj instanceof RidingHood_2){
            view = new VNumberedBox(gObj, length, Color.red, "Hood");
         } 
+        else if (gObj instanceof Stone){
+            view = new VNumberedBox(gObj, length, Color.darkGray, "Stone");
+         } 
         else if (gObj instanceof Blossom){
             if (gObj.getValue() < 10){
                 view = new VNumberedBox(gObj, length, Color.pink, "DLion");
