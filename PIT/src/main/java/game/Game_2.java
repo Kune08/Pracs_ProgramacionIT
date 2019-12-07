@@ -69,9 +69,12 @@ public class Game_2 extends JFrame implements KeyListener, ActionListener {
     
     ConcurrentLinkedQueue<IGameObject> gObjs = new ConcurrentLinkedQueue<IGameObject>();
     RidingHood_2 ridingHood = new RidingHood_2(new Position(0,0), 1, 1);
-	Bee bees = bees = new Bee(new Position(0,11), 1, 1, gObjs);  
+	Bee bees = new Bee(new Position(0,11), 1, 1, gObjs); 
+	//Bee bees = null; 
 	Fly fly = new Fly(new Position(11,11), 1, 1, gObjs);
+	//Fly fly = null;
 	Spider spider = new Spider(new Position(11,0), 1, 1, gObjs);
+	//Spider spider = null;
     
     // Creamos el menú
     JMenuBar menuBar;
@@ -90,12 +93,14 @@ public class Game_2 extends JFrame implements KeyListener, ActionListener {
        gObjs.add(fly);
        gObjs.add(spider);
        loadNewBoard(0);
+       
   
        // Window initializations.
        dataLabel = new JLabel(ridingHood.toString());
        dataLabel.setBorder(BorderFactory.createEtchedBorder(EtchedBorder.LOWERED)); 
        dataLabel.setPreferredSize(new Dimension(120,40));
        dataLabel.setHorizontalAlignment(SwingConstants.CENTER);
+       
             
        canvas = new GameCanvas(CANVAS_WIDTH, boxSize);
        canvas.setPreferredSize(new Dimension(CANVAS_WIDTH, CANVAS_WIDTH));
@@ -266,7 +271,6 @@ public class Game_2 extends JFrame implements KeyListener, ActionListener {
         if(screenCounter==1) {bees.moveToNextPosition();}
         if(screenCounter==2) {fly.moveToNextPosition();}
         if(screenCounter==3) {spider.moveToNextPosition();}
-        
         
         
         // Check if Caperucita is in board limits
