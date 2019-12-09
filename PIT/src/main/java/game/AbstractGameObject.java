@@ -86,6 +86,10 @@ public abstract class AbstractGameObject implements IGameObject, IToJsonObject{
     public int getValue() {
         return value;
     }
+    
+    public void setLifes(int lifes) {
+        this.lifes = lifes;       
+    }
 
     
     public void setValue(int value) {
