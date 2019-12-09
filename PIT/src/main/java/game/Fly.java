@@ -16,6 +16,8 @@ import org.json.JSONObject;
  * @author juanangel
  */
 public class Fly extends AbstractGameObject{
+	
+	int mov, dX, dY;
     
     ConcurrentLinkedQueue<IGameObject> gObjs = new ConcurrentLinkedQueue<IGameObject>();
     
@@ -46,17 +48,35 @@ public class Fly extends AbstractGameObject{
      */
     
     public Position moveToNextPosition(){
-        
-        position = getRandomPosition(10,10);
+    	Position position = new Position();
+    	mov = (int)(Math.random()*4+1);
+    	switch(mov) {
+    	case 1:
+    		position= this.getPosition();
+    		position.setY(this.getPosition().y-1);
+    		break;
+    	case 2:
+    		position= this.getPosition();
+    		position.setY(this.getPosition().y+1);   
+    		break;
+    	case 3:
+    		position= this.getPosition();
+    		position.setX(this.getPosition().x-1);
+    		break;
+    	case 4:
+    		position= this.getPosition();
+    		position.setX(this.getPosition().x+1); 
+    		break;
+    	}
        
         return position;       
     }  
     
-    public Position getRandomPosition(int mX, int mY){
+    /*public Position getRandomPosition(int mX, int mY){
         int x = (int)(mX * Math.random());
         int y = (int)(mY * Math.random());
         return new Position(x, y);
-    }
+    }*/
     
    /* private ArrayList<RidingHood_2> getBlossoms(){
         ArrayList<RidingHood_2> blossoms = new ArrayList<RidingHood_2>();
@@ -76,7 +96,6 @@ public class Fly extends AbstractGameObject{
             position.y = position.y > p.y? position.y-1:position.y+1;
         }
     } */
-    
     
     public void printFly(){
         System.out.println(this.toJSONObject());

@@ -71,7 +71,7 @@ public class Game_2 extends JFrame implements KeyListener, ActionListener {
     RidingHood_2 ridingHood = new RidingHood_2(new Position(0,0), 1, 1);
 	Bee bees = new Bee(new Position(0,11), 1, 1, gObjs); 
 	//Bee bees = null; 
-	Fly fly = new Fly(new Position(11,11), 1, 1, gObjs);
+	Fly fly = new Fly(new Position(6,6), 1, 1, gObjs);
 	//Fly fly = null;
 	Spider spider = new Spider(new Position(11,0), 1, 1, gObjs);
 	//Spider spider = null;
@@ -285,6 +285,8 @@ public class Game_2 extends JFrame implements KeyListener, ActionListener {
         
         // Check if Caperucita is in board limits
         setInLimits();
+        setInLimitsFly();
+        noPuedesPasar();
        //setInLimitsBees();
         
         // Logic to change to a new screen.
@@ -367,6 +369,25 @@ public class Game_2 extends JFrame implements KeyListener, ActionListener {
         }
     }
     
+
+    //JAJAJAJAJA, has encontrado una piedra y no te dejo pasar.
+    private void noPuedesPasar() {
+    	if(ridingHood.getPosition().getX() == stone.getPosition().getX() && ridingHood.getPosition().getY() == stone.getPosition().getY() ) {
+            if(lastKey==DOWN_KEY) {
+                ridingHood.position.y=stone.getPosition().getY()-1;
+            }
+            else if(lastKey==UP_KEY) {
+                ridingHood.position.y=stone.getPosition().getY()+1; 
+            }
+            if(lastKey==RIGTH_KEY) {
+                ridingHood.position.x=stone.getPosition().getX()-1;
+            }
+            else if(lastKey==LEFT_KEY) {
+                ridingHood.position.x=stone.getPosition().getX()+1;
+            }
+        }
+    }
+    
     /*
     Comprueba que Caperucita no se sale del tablero.
     En caso contrario corrige su posición
@@ -389,41 +410,31 @@ public class Game_2 extends JFrame implements KeyListener, ActionListener {
             ridingHood.position.y = lastBox;
         }
         
-        else if(ridingHood.getPosition().getX() == stone.getPosition().getX() && ridingHood.getPosition().getY() == stone.getPosition().getY() ) {
-            if(lastKey==DOWN_KEY) {
-                ridingHood.position.y=stone.getPosition().getY()-1;
-            }
-            else if(lastKey==UP_KEY) {
-                ridingHood.position.y=stone.getPosition().getY()+1; 
-            }
-            if(lastKey==RIGTH_KEY) {
-                ridingHood.position.x=stone.getPosition().getX()-1;
-            }
-            else if(lastKey==LEFT_KEY) {
-                ridingHood.position.x=stone.getPosition().getX()+1;
-            }
-        }
     }
     
-    
-	/*private void setInLimitsBees(){
+    /*
+    Comprueba que la mosca no se sale del tablero.
+    En caso contrario corrige su posición
+    */
+	private void setInLimitsFly(){
 	        
 	        int lastBox = (CANVAS_WIDTH/boxSize) - 1;
 	        
-	        if (bees.getPosition().getX() < 0){
-	        	bees = null;
+	        if (fly.getPosition().getX() < 0){
+	        	fly.position.x = 0;
 	        }
-	        else if ( bees.getPosition().getX() > lastBox ){
-	        	bees = null;
+	        else if (fly.getPosition().getX() > lastBox ){
+	        	fly.position.x = lastBox;
 	        }
 	        
-	        if (bees.getPosition().getY() < 0){
-	        	bees = null;
+	        if (fly.getPosition().getY() < 0){
+	        	fly.position.y = 0;
 	        }
-	        else if (bees.getPosition().getY() > lastBox){
-	            bees = null;
-	        } 
-	    }*/
+	        else if (fly.getPosition().getY() > lastBox){
+	        	fly.position.y = lastBox;
+	        }
+	    }
+    
     
     /*
     Carga un nuevo tablero
