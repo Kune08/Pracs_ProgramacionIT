@@ -463,9 +463,9 @@ public class Game extends JFrame implements KeyListener, ActionListener {
         switch(counter){
             case 0: 
               gObjs.add(new Blossom(new Position(2,2), 10, 10));
-              gObjs.add(new Blossom(new Position(2,8), 4, 10));
-              gObjs.add(new Blossom(new Position(8,8), 10, 10));
-              gObjs.add(new Blossom(new Position(8,2), 4, 10));
+              //gObjs.add(new Blossom(new Position(2,8), 4, 10));
+              //gObjs.add(new Blossom(new Position(8,8), 10, 10));
+              //gObjs.add(new Blossom(new Position(8,2), 4, 10));
               nivelesPasados++;
               break;
             case 1:
@@ -500,7 +500,9 @@ public class Game extends JFrame implements KeyListener, ActionListener {
 	                    	gObjs.add(stone);
 	                     }
 	                    else {
-	                    	gObjs.add(GameObjectsJSONFactory.getGameObject(jObj));
+	                    	if(GameObjectsJSONFactory.getGameObject(jObj).getPosition().getX()<CANVAS_WIDTH/boxSize && GameObjectsJSONFactory.getGameObject(jObj).getPosition().getY()<CANVAS_WIDTH/boxSize) {
+	                    		gObjs.add(GameObjectsJSONFactory.getGameObject(jObj));
+	                    	}
 	                    }
 	                }                   
 	            }
@@ -509,6 +511,7 @@ public class Game extends JFrame implements KeyListener, ActionListener {
 	            	gObjs.add(new Blossom(getRandomPosition(CANVAS_WIDTH/boxSize,CANVAS_WIDTH/boxSize), 4, (int)(Math.random()*20+1)));
 	            }
 	            System.out.println("------- NIVEL 1 CARGADO | EVENTOS ------- ");
+                System.out.println(nivelesPasados + " objetos generados aleatoriamente");
 	            nivelesPasados++;
                 break;
                 
@@ -542,7 +545,9 @@ public class Game extends JFrame implements KeyListener, ActionListener {
                         	gObjs.add(stone);
                          }
                         else {
-                        	gObjs.add(GameObjectsJSONFactory.getGameObject(jObj));
+	                    	if(GameObjectsJSONFactory.getGameObject(jObj).getPosition().getX()<CANVAS_WIDTH/boxSize && GameObjectsJSONFactory.getGameObject(jObj).getPosition().getY()<CANVAS_WIDTH/boxSize) {
+	                    		gObjs.add(GameObjectsJSONFactory.getGameObject(jObj));
+	                    	}
                         }
                     }                            
                 }
@@ -550,6 +555,7 @@ public class Game extends JFrame implements KeyListener, ActionListener {
                 	gObjs.add(new Blossom(getRandomPosition(CANVAS_WIDTH/boxSize,CANVAS_WIDTH/boxSize), 4, (int)(Math.random()*20+1)));
                 }
                 System.out.println("------- NIVEL 2 CARGADO | EVENTOS ------- ");
+                System.out.println(nivelesPasados + " objetos generados aleatoriamente");
                 nivelesPasados++;
                 break;
             case 3:
@@ -582,7 +588,9 @@ public class Game extends JFrame implements KeyListener, ActionListener {
                         	gObjs.add(stone);
                          }
                         else {
-                        	gObjs.add(GameObjectsJSONFactory.getGameObject(jObj));
+	                    	if(GameObjectsJSONFactory.getGameObject(jObj).getPosition().getX()<CANVAS_WIDTH/boxSize && GameObjectsJSONFactory.getGameObject(jObj).getPosition().getY()<CANVAS_WIDTH/boxSize) {
+	                    		gObjs.add(GameObjectsJSONFactory.getGameObject(jObj));
+	                    	}
                         } 
                     }                            
                 }
@@ -590,6 +598,7 @@ public class Game extends JFrame implements KeyListener, ActionListener {
                 	gObjs.add(new Blossom(getRandomPosition(CANVAS_WIDTH/boxSize,CANVAS_WIDTH/boxSize), 4, (int)(Math.random()*20+1)));
                 }
                 System.out.println("------- NIVEL 3 CARGADO | EVENTOS ------- ");
+                System.out.println(nivelesPasados + " objetos generados aleatoriamente");
                 nivelesPasados++;
                 break;
             default:
