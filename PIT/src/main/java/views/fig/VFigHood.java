@@ -3,10 +3,12 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package views;
+package views.fig;
 
 import game.IGameObject;
 import game.Position;
+import views.AbstractGameView;
+
 import java.awt.BasicStroke;
 import java.awt.Color;
 import java.awt.Graphics;
@@ -17,14 +19,13 @@ import java.awt.Polygon;
  *
  * @author juanangel
  */
-public class VSquareHood extends AbstractGameView {
+public class VFigHood extends AbstractGameView {
     
    
 
-    public VSquareHood(IGameObject mObject, int length) throws Exception{
+    public VFigHood(IGameObject mObject, int length) throws Exception{
         super(mObject, length);       
     }
-    
     
     public void draw(Graphics g) {
         

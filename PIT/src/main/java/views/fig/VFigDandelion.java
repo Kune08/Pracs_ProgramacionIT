@@ -3,10 +3,12 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package views;
+package views.fig;
 
 import game.IGameObject;
 import game.Position;
+import views.AbstractGameView;
+
 import java.awt.BasicStroke;
 import java.awt.Color;
 import java.awt.Graphics;
@@ -16,14 +18,13 @@ import java.awt.Graphics2D;
  *
  * @author juanangel
  */
-public class VSquareDandelion extends AbstractGameView {
+public class VFigDandelion extends AbstractGameView {
     
     Color mC = Color.pink;
 
-    public VSquareDandelion(IGameObject mObject, int l) throws Exception{
+    public VFigDandelion(IGameObject mObject, int l) throws Exception{
         super(mObject, l);
     }
-    
     
     public void draw(Graphics g) {
         

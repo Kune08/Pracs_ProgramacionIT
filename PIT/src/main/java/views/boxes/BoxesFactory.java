@@ -9,8 +9,7 @@ import game.Bee;
 import game.Blossom;
 import game.Fly;
 import game.IGameObject;
-import game.RidingHood_1;
-import game.RidingHood_2;
+import game.RidingHood;
 import game.Spider;
 import game.Stone;
 
@@ -37,7 +36,7 @@ public class BoxesFactory implements IViewFactory {
         else if (gObj instanceof Spider){
            view = new VNumberedBox(gObj, length, Color.black, "Spider");
         }
-        else if (gObj instanceof RidingHood_2){
+        else if (gObj instanceof RidingHood){
            view = new VNumberedBox(gObj, length, Color.red, "Hood");
         } 
         else if (gObj instanceof Stone){

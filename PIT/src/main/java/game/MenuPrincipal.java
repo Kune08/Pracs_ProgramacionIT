@@ -6,7 +6,6 @@ import java.awt.EventQueue;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.border.EmptyBorder;
-import java.awt.FlowLayout;
 import javax.swing.JLabel;
 import java.awt.Font;
 import javax.swing.SwingConstants;
@@ -15,6 +14,9 @@ import javax.swing.DefaultComboBoxModel;
 import javax.swing.JButton;
 import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
+import javax.swing.JTextPane;
+import java.awt.Color;
+import java.awt.SystemColor;
 
 public class MenuPrincipal extends JFrame {
 
@@ -40,6 +42,7 @@ public class MenuPrincipal extends JFrame {
 	 * Create the frame.
 	 */
 	public MenuPrincipal() {
+		setResizable(false);
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setBounds(100, 100, 450, 300);
 		contentPane = new JPanel();
@@ -104,6 +107,21 @@ public class MenuPrincipal extends JFrame {
 		auto.setBounds(107, 87, 100, 20);
 		panel_1.add(auto);
 		
+		JLabel lblAndrsRuz = new JLabel("© Andrés Ruz Nieto");
+		lblAndrsRuz.setBounds(0, 197, 121, 14);
+		panel_1.add(lblAndrsRuz);
+		
+		JTextPane txtpnSeleccionaLos = new JTextPane();
+		txtpnSeleccionaLos.setBackground(SystemColor.menu);
+		txtpnSeleccionaLos.setText("- Selecciona los paramétros\r\nque desees.\r\n- Pulsa sobre JUGAR.\r\n- Una vez dentro, con la barra\r\nespaciadora podrás parar y \r\nreanudar el juego.\r\n- En el menú ARCHIVO, podrás\r\ncargar y guardar tu partida.");
+		txtpnSeleccionaLos.setBounds(218, 37, 176, 118);
+		panel_1.add(txtpnSeleccionaLos);
+		
+		JLabel lblcmoSeJuega = new JLabel("¿Cómo se juega?");
+		lblcmoSeJuega.setFont(new Font("Arial Black", Font.PLAIN, 11));
+		lblcmoSeJuega.setBounds(241, 20, 108, 14);
+		panel_1.add(lblcmoSeJuega);
+		
 		btnJugar.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
 				String vistasGame = vistas.getSelectedItem().toString();
@@ -123,8 +141,8 @@ public class MenuPrincipal extends JFrame {
 				switch(tamanioCuad) {
 					case 0:
 						try {
-							if(autoCuad==0) {Game_2 gui = new Game_2(480/6,1);}
-							else {Game_2 gui = new Game_2(480/6,0);}
+							if(autoCuad==0) {Game gui = new Game(480/6,1);}
+							else {Game gui = new Game(480/6,0);}
 							dispose();
 						} catch (Exception e) {
 							// TODO Auto-generated catch block
@@ -133,8 +151,8 @@ public class MenuPrincipal extends JFrame {
 						break;
 					case 1:
 						try {
-							if(autoCuad==0) {Game_2 gui = new Game_2(480/8,1);}
-							else {Game_2 gui = new Game_2(480/8,0);}
+							if(autoCuad==0) {Game gui = new Game(480/8,1);}
+							else {Game gui = new Game(480/8,0);}
 							dispose();
 						} catch (Exception e) {
 							// TODO Auto-generated catch block
@@ -143,8 +161,8 @@ public class MenuPrincipal extends JFrame {
 						break;
 					case 2:
 						try {
-							if(autoCuad==0) {Game_2 gui = new Game_2(480/10,1);}
-							else {Game_2 gui = new Game_2(480/10,0);}
+							if(autoCuad==0) {Game gui = new Game(480/10,1);}
+							else {Game gui = new Game(480/10,0);}
 							dispose();
 						} catch (Exception e) {
 							// TODO Auto-generated catch block
@@ -153,8 +171,8 @@ public class MenuPrincipal extends JFrame {
 						break;
 					case 3:
 						try {
-							if(autoCuad==0) {Game_2 gui = new Game_2(480/12,1);}
-							else {Game_2 gui = new Game_2(480/12,0);}
+							if(autoCuad==0) {Game gui = new Game(480/12,1);}
+							else {Game gui = new Game(480/12,0);}
 							dispose();
 						} catch (Exception e) {
 							// TODO Auto-generated catch block
@@ -163,8 +181,8 @@ public class MenuPrincipal extends JFrame {
 						break;
 					case 4:
 						try {
-							if(autoCuad==0) {Game_2 gui = new Game_2(480/16,1);}
-							else {Game_2 gui = new Game_2(480/16,0);}
+							if(autoCuad==0) {Game gui = new Game(480/16,1);}
+							else {Game gui = new Game(480/16,0);}
 							dispose();
 						} catch (Exception e) {
 							// TODO Auto-generated catch block
@@ -173,8 +191,8 @@ public class MenuPrincipal extends JFrame {
 						break;
 					case 5:
 						try {
-							if(autoCuad==0) {Game_2 gui = new Game_2(480/20,1);}
-							else {Game_2 gui = new Game_2(480/20,0);}
+							if(autoCuad==0) {Game gui = new Game(480/20,1);}
+							else {Game gui = new Game(480/20,0);}
 							dispose();
 						} catch (Exception e) {
 							// TODO Auto-generated catch block
@@ -183,8 +201,8 @@ public class MenuPrincipal extends JFrame {
 						break;
 					default:
 						try {
-							if(autoCuad==0) {Game_2 gui = new Game_2(480/12,1);}
-							else {Game_2 gui = new Game_2(480/12,0);}
+							if(autoCuad==0) {Game gui = new Game(480/12,1);}
+							else {Game gui = new Game(480/12,0);}
 							dispose();
 						} catch (Exception e) {
 							// TODO Auto-generated catch block

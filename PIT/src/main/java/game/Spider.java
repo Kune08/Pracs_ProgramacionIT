@@ -46,18 +46,18 @@ public class Spider extends AbstractGameObject{
     
     public Position moveToNextPosition(){
         
-        ArrayList<RidingHood_2> blossoms = getBlossoms();
+        ArrayList<RidingHood> blossoms = getBlossoms();
         IGameObject target = AbstractGameObject.getClosest(this, blossoms);
         approachTo(target.getPosition());
        
         return position;       
     }  
     
-    private ArrayList<RidingHood_2> getBlossoms(){
-        ArrayList<RidingHood_2> blossoms = new ArrayList<RidingHood_2>();
+    private ArrayList<RidingHood> getBlossoms(){
+        ArrayList<RidingHood> blossoms = new ArrayList<RidingHood>();
         for (IGameObject obj: gObjs){
-            if (obj instanceof RidingHood_2){
-                blossoms.add((RidingHood_2) obj);
+            if (obj instanceof RidingHood){
+                blossoms.add((RidingHood) obj);
             }
         }
         return blossoms;

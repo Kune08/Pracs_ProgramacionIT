@@ -25,9 +25,9 @@ public class TestRidingHood {
         
         System.out.println("testConstructorAndToJson");
         
-        RidingHood_1 b1 = new RidingHood_1(new Position(1,1));
+        RidingHood b1 = new RidingHood(new Position(1,1));
         JSONObject jObj = b1.toJSONObject();
-        RidingHood_1 b2 = new RidingHood_1(jObj);
+        RidingHood b2 = new RidingHood(jObj);
         System.out.println(b1);
         System.out.println(b2);
         System.out.println(b1.toJSONObject());
@@ -113,7 +113,7 @@ public class TestRidingHood {
         blossoms.add(new Blossom(new Position(1,4)));
                              
         // Crear nuevo objeto RidingHood pasándole el array de blossoms.
-        IGameObject b = new RidingHood_1(new Position(1,1), 0, 0, blossoms);
+        IGameObject b = new RidingHood(new Position(1,1), 0, 0);
         
         // Ejercicio 2.5 .....................................................................
         ArrayList<Position> trace = testMoveToNextPosition(b, blossoms, 40);

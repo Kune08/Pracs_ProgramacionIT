@@ -3,16 +3,16 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package views.geo;
+package views.fig;
 
 import game.Bee;
 import game.Bee;
 import game.Blossom;
 import game.Fly;
 import game.IGameObject;
-import game.RidingHood_1;
-import game.RidingHood_2;
+import game.RidingHood;
 import game.Spider;
+import game.Stone;
 import views.IAWTGameView;
 import views.IViewFactory;
 
@@ -20,7 +20,7 @@ import views.IViewFactory;
  *
  * @author juanangel
  */
-public class GeoFactory implements IViewFactory {
+public class FigFactory implements IViewFactory {
     
     public IAWTGameView getView(IGameObject gObj, int length) throws Exception {
         
@@ -28,23 +28,26 @@ public class GeoFactory implements IViewFactory {
         
         
         if (gObj instanceof Fly){
-           view = new VGeo(gObj, "src/main/resources/images/geo/fly.png", length); 
+           view = new VFigFly(gObj, length); 
         }
         else if (gObj instanceof Bee){
-           view = new VGeo(gObj, "src/main/resources/images/geo/bee.png", length); 
+           view = new VFigBee(gObj, length); 
         }  
-        else if (gObj instanceof RidingHood_2){
-           view = new VGeo(gObj, "src/main/resources/images/geo/caperucita.png", length); 
+        else if (gObj instanceof RidingHood){
+           view = new VFigHood(gObj, length); 
         } 
         else if (gObj instanceof Spider){
-           view = new VGeo(gObj, "src/main/resources/images/geo/spider.png", length); 
+           view = new VFigSpider(gObj, length); 
         } 
+        else if (gObj instanceof Stone){
+            view = new VFigStone(gObj, length); 
+         } 
         else if (gObj instanceof Blossom){
            if (gObj.getValue() < 10){
-                view = new VGeo(gObj, "src/main/resources/images/geo/dandelion2.png", length); 
+                view = new VFigDandelion(gObj, length); 
            }
            else {
-                view = new VGeo(gObj, "src/main/resources/images/geo/clover.png",  length); 
+                view = new VFigClover(gObj,  length); 
            }
         }
             

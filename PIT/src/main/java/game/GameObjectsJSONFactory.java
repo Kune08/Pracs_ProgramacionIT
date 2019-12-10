@@ -35,8 +35,8 @@ public class GameObjectsJSONFactory {
         else if (typeLabel.equals("Stone")){
             gObj = new Stone(jObj);
         } 
-        else if (typeLabel.equals("RidingHood_2")){
-            gObj = new RidingHood_2(jObj);
+        else if (typeLabel.equals("RidingHood")){
+            gObj = new RidingHood(jObj);
         }        
         return gObj;
     }

@@ -3,10 +3,12 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package views;
+package views.fig;
 
 import game.IGameObject;
 import game.Position;
+import views.AbstractGameView;
+
 import java.awt.BasicStroke;
 import java.awt.Color;
 import java.awt.Graphics;
@@ -16,14 +18,13 @@ import java.awt.Graphics2D;
  *
  * @author juanangel
  */
-public class VSquareBee extends AbstractGameView {
+public class VFigFly extends AbstractGameView {
     
     private boolean odd;
    
-    public VSquareBee(IGameObject mObject, int length) throws Exception{
+    public VFigFly(IGameObject mObject, int length) throws Exception{
         super(mObject, length);       
     }
-    
     
     public void draw(Graphics g) {
         
@@ -69,3 +70,4 @@ public class VSquareBee extends AbstractGameView {
         g2.setColor(c);
     }
 }
+

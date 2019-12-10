@@ -5,33 +5,36 @@
  */
 package game;
 
+import common.FileUtilities;
 import java.util.ArrayList;
 import java.util.concurrent.ConcurrentLinkedQueue;
+
+import org.json.JSONArray;
 import org.json.JSONObject;
 
 /**
  *
  * @author juanangel
  */
-public class RidingHood_3 extends AbstractGameObject {
+public class RidingHood extends AbstractGameObject {
     
+    int dX, dY;
     ConcurrentLinkedQueue<IGameObject> gObjs = new ConcurrentLinkedQueue<IGameObject>();
-   
-    RidingHood_3(Position position) {
+
+    RidingHood(Position position) {
         super(position);    
     }
     
-    RidingHood_3(Position position, int value, int life ) {
+    RidingHood(Position position, int value, int life ) {
         super(position, value, life);    
     }
     
-    RidingHood_3(Position position, int value, int life, ConcurrentLinkedQueue<IGameObject> gObjs) {
+    RidingHood(Position position, int value, int life, ConcurrentLinkedQueue<IGameObject> gObjs) {
         super(position, value, life);    
         this.gObjs = gObjs;
     }
     
-    RidingHood_3(JSONObject jObj) {
-        
+    RidingHood(JSONObject jObj) {
         super(jObj);    
     } 
     
@@ -43,8 +46,30 @@ public class RidingHood_3 extends AbstractGameObject {
      * @return posición en la que se encuentra después de ejecutarse el
      * método.
      */
+    @Override
+    public Position moveToNextPosition(){
+        this.position.x += dX;
+        this.position.y += dY;       
+        return position;       
+    }  
     
-    public Position moveToNextPositionAuto(){
+    public void moveRigth(){
+        dY = 0; dX = 1;
+    }
+    
+    public void moveLeft(){
+        dY = 0; dX = -1;
+    }
+    
+    public void moveUp(){
+        dY = -1; dX = 0;
+    }
+    
+    public void moveDown(){
+        dY = 1; dX = 0;
+    }
+    
+public Position moveToNextPositionAuto(){
         
         ArrayList<Blossom> blossoms = getBlossoms();
         IGameObject target = AbstractGameObject.getClosest(this, blossoms);
