@@ -44,7 +44,7 @@ public class RidingHood_3 extends AbstractGameObject {
      * método.
      */
     
-    public Position moveToNextPosition(){
+    public Position moveToNextPositionAuto(){
         
         ArrayList<Blossom> blossoms = getBlossoms();
         IGameObject target = AbstractGameObject.getClosest(this, blossoms);

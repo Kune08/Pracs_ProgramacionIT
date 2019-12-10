@@ -35,7 +35,7 @@ public class Inicio extends JFrame {
 	            new ActionListener(){  
 					public void actionPerformed(ActionEvent ae) {
 						try {
-							Game_2 gui = new Game_2(480);
+							Game_2 gui = new Game_2(480,0);
 						} catch (Exception e) {
 							// TODO Auto-generated catch block
 							e.printStackTrace();
@@ -48,7 +48,7 @@ public class Inicio extends JFrame {
 	            new ActionListener(){  
 					public void actionPerformed(ActionEvent ae) {
 						try {
-							Game_2 gui = new Game_2(600);
+							Game_2 gui = new Game_2(600,0);
 						} catch (Exception e) {
 							// TODO Auto-generated catch block
 							e.printStackTrace();
@@ -61,7 +61,7 @@ public class Inicio extends JFrame {
 	            new ActionListener(){  
 					public void actionPerformed(ActionEvent ae) {
 						try {
-							Game_2 gui = new Game_2(760);
+							Game_2 gui = new Game_2(480/12,0);
 						} catch (Exception e) {
 							// TODO Auto-generated catch block
 							e.printStackTrace();

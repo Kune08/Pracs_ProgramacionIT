@@ -68,11 +68,12 @@ public class Game_2 extends JFrame implements KeyListener, ActionListener {
     // Timer
     Timer timer;
     int tick = 200;
+    int auto = 0;
     
     // Game Variables
     
     ConcurrentLinkedQueue<IGameObject> gObjs = new ConcurrentLinkedQueue<IGameObject>();
-    RidingHood_2 ridingHood = new RidingHood_2(new Position(0,0), 1, 1);
+    RidingHood_2 ridingHood = new RidingHood_2(new Position(0,0), 1, 1,gObjs);
     
     
 	Bee bees = new Bee(new Position(-1,-1), 1, 1, gObjs); 
@@ -81,7 +82,7 @@ public class Game_2 extends JFrame implements KeyListener, ActionListener {
 	//Fly fly = null;
 	Spider spider = new Spider(new Position(-3,-3), 1, 1, gObjs);
 	//Spider spider = null;
-	Stone stone = new Stone(getRandomPosition(10,10));
+	Stone stone = new Stone(getRandomPosition(CANVAS_WIDTH/boxSize,CANVAS_WIDTH/boxSize));
     
     // Creamos el menú
     JMenuBar menuBar;
@@ -89,10 +90,11 @@ public class Game_2 extends JFrame implements KeyListener, ActionListener {
     JMenuItem itColores, itFiguras,itGeo, itCarga, itGuarda;
 
     
-    public Game_2(int CANVAS_WIDTH) throws Exception{
+    public Game_2(int boxSize, int auto) throws Exception{
     	
        super("Game_2");
-       this.CANVAS_WIDTH=CANVAS_WIDTH;
+       this.boxSize=boxSize;
+       this.auto=auto;
        
        // Game Initializations.
        gObjs.add(ridingHood);
@@ -215,9 +217,8 @@ public class Game_2 extends JFrame implements KeyListener, ActionListener {
                                }
                                
                                else if(GameObjectsJSONFactory.getGameObject(jObj) instanceof RidingHood_2) {
-                            	  ridingHood = (RidingHood_2) GameObjectsJSONFactory.getGameObject(jObj);
-                            	  //ridingHood = new RidingHood_2(new Position(0,0), GameObjectsJSONFactory.getGameObject(jObj).getValue(), GameObjectsJSONFactory.getGameObject(jObj).getLifes());
-                            	  //ridingHood.setPosition(GameObjectsJSONFactory.getGameObject(jObj).getPosition());
+                            	  ridingHood = new RidingHood_2(new Position(0,0), GameObjectsJSONFactory.getGameObject(jObj).getValue(), GameObjectsJSONFactory.getGameObject(jObj).getLifes(), gObjs);
+                            	  ridingHood.setPosition(GameObjectsJSONFactory.getGameObject(jObj).getPosition());
                             	  gObjs.add(ridingHood);
                                }
                                else {
@@ -288,7 +289,14 @@ public class Game_2 extends JFrame implements KeyListener, ActionListener {
         setDirection(lastKey);
         
         // Moving Caperucita
-        ridingHood.moveToNextPosition();
+        if(auto==0) {
+        	ridingHood.moveToNextPosition();
+        }
+        else if(auto==1) {
+        	ridingHood.moveToNextPositionAuto();
+        }
+        else {ridingHood.moveToNextPosition();}
+        
         //Si están en la pantalla que toca se habilitará el movimiento del "bicho"
         if(screenCounter==1) {
         	fly.moveToNextPosition();
@@ -486,13 +494,13 @@ public class Game_2 extends JFrame implements KeyListener, ActionListener {
                         String typeLabel = jObj.getString(TypeLabel);
                         if(GameObjectsJSONFactory.getGameObject(jObj) instanceof Fly) {
                         	fly = new Fly(new Position(0,0), GameObjectsJSONFactory.getGameObject(jObj).getValue(), GameObjectsJSONFactory.getGameObject(jObj).getLifes(), gObjs);
-                        	fly.setPosition(getRandomPosition(10,10));
+                        	fly.setPosition(getRandomPosition(CANVAS_WIDTH/boxSize,CANVAS_WIDTH/boxSize));
                         	System.out.println("Mosca generada:" + fly.getPosition());
                         	gObjs.add(fly);
                          }
                         else if(GameObjectsJSONFactory.getGameObject(jObj) instanceof Stone) {
                         	stone = new Stone(new Position(0,0), GameObjectsJSONFactory.getGameObject(jObj).getValue(), GameObjectsJSONFactory.getGameObject(jObj).getLifes());
-                        	stone.setPosition(getRandomPosition(10,10));
+                        	stone.setPosition(getRandomPosition(CANVAS_WIDTH/boxSize,CANVAS_WIDTH/boxSize));
                         	gObjs.add(stone);
                          }
                         else {
@@ -501,7 +509,7 @@ public class Game_2 extends JFrame implements KeyListener, ActionListener {
                     }                   
                 }
                 for(int i = 0 ; i<nivelesPasados ; i++) {
-                	gObjs.add(new Blossom(getRandomPosition(10,10), 4, (int)(Math.random()*20+1)));
+                	gObjs.add(new Blossom(getRandomPosition(CANVAS_WIDTH/boxSize,CANVAS_WIDTH/boxSize), 4, (int)(Math.random()*20+1)));
                 }
                 System.out.println("------- NIVEL 1 CARGADO | EVENTOS ------- ");
                 nivelesPasados++;
@@ -526,13 +534,13 @@ public class Game_2 extends JFrame implements KeyListener, ActionListener {
                         String typeLabel = jObj.getString(TypeLabel);
                         if(GameObjectsJSONFactory.getGameObject(jObj) instanceof Bee) {
                         	bees = new Bee(new Position(0,0), GameObjectsJSONFactory.getGameObject(jObj).getValue(), GameObjectsJSONFactory.getGameObject(jObj).getLifes(), gObjs);
-                        	bees.setPosition(getRandomPosition(10,10));
+                        	bees.setPosition(getRandomPosition(CANVAS_WIDTH/boxSize,CANVAS_WIDTH/boxSize));
                         	System.out.println("Bee generada:" + bees.getPosition());
                         	gObjs.add(bees);
                          }
                         else if(GameObjectsJSONFactory.getGameObject(jObj) instanceof Stone) {
                         	stone = new Stone(new Position(0,0), GameObjectsJSONFactory.getGameObject(jObj).getValue(), GameObjectsJSONFactory.getGameObject(jObj).getLifes());
-                        	stone.setPosition(getRandomPosition(10,10));
+                        	stone.setPosition(getRandomPosition(CANVAS_WIDTH/boxSize,CANVAS_WIDTH/boxSize));
                         	gObjs.add(stone);
                          }
                         else {
@@ -541,7 +549,7 @@ public class Game_2 extends JFrame implements KeyListener, ActionListener {
                     }                            
                 }
                 for(int i = 0 ; i<nivelesPasados ; i++) {
-                	gObjs.add(new Blossom(getRandomPosition(10,10), 4, (int)(Math.random()*20+1)));
+                	gObjs.add(new Blossom(getRandomPosition(CANVAS_WIDTH/boxSize,CANVAS_WIDTH/boxSize), 4, (int)(Math.random()*20+1)));
                 }
                 System.out.println("------- NIVEL 2 CARGADO | EVENTOS ------- ");
                 nivelesPasados++;
@@ -565,13 +573,13 @@ public class Game_2 extends JFrame implements KeyListener, ActionListener {
                         String typeLabel = jObj.getString(TypeLabel);
                         if(GameObjectsJSONFactory.getGameObject(jObj) instanceof Spider) {
                         	spider = new Spider(new Position(0,0), GameObjectsJSONFactory.getGameObject(jObj).getValue(), GameObjectsJSONFactory.getGameObject(jObj).getLifes(), gObjs);
-                        	spider.setPosition(getRandomPosition(10,10));
+                        	spider.setPosition(getRandomPosition(CANVAS_WIDTH/boxSize,CANVAS_WIDTH/boxSize));
                         	System.out.println("Araña generada:" + spider.getPosition());
                         	gObjs.add(spider);
                          }
                         else if(GameObjectsJSONFactory.getGameObject(jObj) instanceof Stone) {
                         	stone = new Stone(new Position(0,0), GameObjectsJSONFactory.getGameObject(jObj).getValue(), GameObjectsJSONFactory.getGameObject(jObj).getLifes());
-                        	stone.setPosition(getRandomPosition(10,10));
+                        	stone.setPosition(getRandomPosition(CANVAS_WIDTH/boxSize,CANVAS_WIDTH/boxSize));
                         	gObjs.add(stone);
                          }
                         else {
@@ -580,7 +588,7 @@ public class Game_2 extends JFrame implements KeyListener, ActionListener {
                     }                            
                 }
                 for(int i = 0 ; i<nivelesPasados ; i++) {
-                	gObjs.add(new Blossom(getRandomPosition(10,10), 4, (int)(Math.random()*20+1)));
+                	gObjs.add(new Blossom(getRandomPosition(CANVAS_WIDTH/boxSize,CANVAS_WIDTH/boxSize), 4, (int)(Math.random()*20+1)));
                 }
                 System.out.println("------- NIVEL 3 CARGADO | EVENTOS ------- ");
                 nivelesPasados++;
@@ -604,6 +612,6 @@ public class Game_2 extends JFrame implements KeyListener, ActionListener {
     }
     
     public static void main(String [] args) throws Exception{
-       Game_2 gui = new Game_2(480);
+       Game_2 gui = new Game_2(40,0);
     }
 }

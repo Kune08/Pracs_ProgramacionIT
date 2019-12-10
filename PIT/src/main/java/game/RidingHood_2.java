@@ -7,6 +7,8 @@ package game;
 
 import common.FileUtilities;
 import java.util.ArrayList;
+import java.util.concurrent.ConcurrentLinkedQueue;
+
 import org.json.JSONArray;
 import org.json.JSONObject;
 
@@ -17,6 +19,7 @@ import org.json.JSONObject;
 public class RidingHood_2 extends AbstractGameObject {
     
     int dX, dY;
+    ConcurrentLinkedQueue<IGameObject> gObjs = new ConcurrentLinkedQueue<IGameObject>();
 
     RidingHood_2(Position position) {
         super(position);    
@@ -24,6 +27,11 @@ public class RidingHood_2 extends AbstractGameObject {
     
     RidingHood_2(Position position, int value, int life ) {
         super(position, value, life);    
+    }
+    
+    RidingHood_2(Position position, int value, int life, ConcurrentLinkedQueue<IGameObject> gObjs) {
+        super(position, value, life);    
+        this.gObjs = gObjs;
     }
     
     RidingHood_2(JSONObject jObj) {
@@ -60,4 +68,33 @@ public class RidingHood_2 extends AbstractGameObject {
     public void moveDown(){
         dY = 1; dX = 0;
     }
+    
+public Position moveToNextPositionAuto(){
+        
+        ArrayList<Blossom> blossoms = getBlossoms();
+        IGameObject target = AbstractGameObject.getClosest(this, blossoms);
+        approachTo(target.getPosition());
+       
+        return position;       
+    }  
+    
+    private ArrayList<Blossom> getBlossoms(){
+        ArrayList<Blossom> blossoms = new ArrayList<Blossom>();
+        for (IGameObject obj: gObjs){
+            if (obj instanceof Blossom){
+                blossoms.add((Blossom) obj);
+            }
+        }
+        return blossoms;
+    }
+    
+    private void approachTo(Position p){
+        if (position.x != p.x){
+            position.x = position.x > p.x? position.x-1:position.x+1;
+        }
+        if (position.y != p.y){
+            position.y = position.y > p.y? position.y-1:position.y+1;
+        }
+    }   
+ 
 }
