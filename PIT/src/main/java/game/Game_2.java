@@ -160,19 +160,20 @@ public class Game_2 extends JFrame implements KeyListener, ActionListener {
                    
                    public void actionPerformed(ActionEvent ae){
                 	   timer.stop();
-                	   //pantallaGuardada=screenCounter;
-                	   //System.out.println("Pantalla guardada: " + pantallaGuardada);
                 	   String path = "src/main/resources/games/guardado.txt";
                        System.out.println("Saving objects");
                        if (gObjs != null){
                            JSONObject jObjs [] = new JSONObject[gObjs.size()];
-                           for(int i = 0; i < jObjs.length; i++){
-                               jObjs[i] = ((IToJsonObject)gObjs.poll()).toJSONObject();
+                           int i=0;
+                           for (IGameObject igo : gObjs)
+                           //for(int i = 0; i < jObjs.length; i++)
+                           {
+                               jObjs[i++] = ((IToJsonObject)igo).toJSONObject();
                            }
                            FileUtilities.writeJsonsToFile(jObjs, path);
                        }
                        requestFocusInWindow();
-                       System.exit(0);
+                       //System.exit(0);
                    }
                }
            );
