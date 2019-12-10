@@ -63,6 +63,7 @@ public class Game_2 extends JFrame implements KeyListener, ActionListener {
     //Contador pantallas
     int screenCounter = 0;
     int pantallaGuardada;
+    int nivelesPasados = 1;
 
     // Timer
     Timer timer;
@@ -160,6 +161,7 @@ public class Game_2 extends JFrame implements KeyListener, ActionListener {
                    public void actionPerformed(ActionEvent ae){
                 	   timer.stop();
                 	   //pantallaGuardada=screenCounter;
+                	   //System.out.println("Pantalla guardada: " + pantallaGuardada);
                 	   String path = "src/main/resources/games/guardado.txt";
                        System.out.println("Saving objects");
                        if (gObjs != null){
@@ -170,6 +172,7 @@ public class Game_2 extends JFrame implements KeyListener, ActionListener {
                            FileUtilities.writeJsonsToFile(jObjs, path);
                        }
                        requestFocusInWindow();
+                       System.exit(0);
                    }
                }
            );
@@ -177,6 +180,7 @@ public class Game_2 extends JFrame implements KeyListener, ActionListener {
        itCarga.addActionListener(
                new ActionListener(){  
                    public void actionPerformed(ActionEvent ae){
+                	   System.out.println("Nivel CARGADO: " + screenCounter);
                 	   String path = "src/main/resources/games/guardado.txt";
                        System.out.println("Loading objects");
                        JSONArray jArray = FileUtilities.readJsonsFromFile(path);
@@ -186,31 +190,37 @@ public class Game_2 extends JFrame implements KeyListener, ActionListener {
                                JSONObject jObj = jArray.getJSONObject(i);
                                String typeLabel = jObj.getString(TypeLabel);
                                if(GameObjectsJSONFactory.getGameObject(jObj) instanceof Bee) {
-                              	  bees = new Bee(new Position(0,0), GameObjectsJSONFactory.getGameObject(jObj).getValue(), GameObjectsJSONFactory.getGameObject(jObj).getLifes(), gObjs);
+                            	  screenCounter=2;
+                            	  bees = new Bee(new Position(0,0), GameObjectsJSONFactory.getGameObject(jObj).getValue(), GameObjectsJSONFactory.getGameObject(jObj).getLifes(), gObjs);
                               	  bees.setPosition(GameObjectsJSONFactory.getGameObject(jObj).getPosition());
                               	  gObjs.add(bees);
                                  }
                                else if(GameObjectsJSONFactory.getGameObject(jObj) instanceof Fly) {
-                               	  fly = new Fly(new Position(0,0), GameObjectsJSONFactory.getGameObject(jObj).getValue(), GameObjectsJSONFactory.getGameObject(jObj).getLifes(), gObjs);
+                               	  screenCounter=1;
+                            	  fly = new Fly(new Position(0,0), GameObjectsJSONFactory.getGameObject(jObj).getValue(), GameObjectsJSONFactory.getGameObject(jObj).getLifes(), gObjs);
                                	  fly.setPosition(GameObjectsJSONFactory.getGameObject(jObj).getPosition());
                                	  gObjs.add(fly);
                                 }
                                else if(GameObjectsJSONFactory.getGameObject(jObj) instanceof Spider) {
-                                	  spider = new Spider(new Position(0,0), GameObjectsJSONFactory.getGameObject(jObj).getValue(), GameObjectsJSONFactory.getGameObject(jObj).getLifes(), gObjs);
-                                	  spider.setPosition(GameObjectsJSONFactory.getGameObject(jObj).getPosition());
-                                	  gObjs.add(spider);
+                            	   screenCounter=3;	  
+                            	   spider = new Spider(new Position(0,0), GameObjectsJSONFactory.getGameObject(jObj).getValue(), GameObjectsJSONFactory.getGameObject(jObj).getLifes(), gObjs);
+                                   spider.setPosition(GameObjectsJSONFactory.getGameObject(jObj).getPosition());
+                                   gObjs.add(spider);
                                 }
                                
                                else if(GameObjectsJSONFactory.getGameObject(jObj) instanceof Stone) {
-                            	  stone = new Stone(new Position(0,0), GameObjectsJSONFactory.getGameObject(jObj).getValue(), GameObjectsJSONFactory.getGameObject(jObj).getLifes());
-                             	  stone.setPosition(GameObjectsJSONFactory.getGameObject(jObj).getPosition());
+                            	  stone = (Stone) GameObjectsJSONFactory.getGameObject(jObj);
                              	  gObjs.add(stone);
                                }
                                
                                else if(GameObjectsJSONFactory.getGameObject(jObj) instanceof RidingHood_2) {
-                            	  ridingHood = new RidingHood_2(new Position(0,0), GameObjectsJSONFactory.getGameObject(jObj).getValue(), GameObjectsJSONFactory.getGameObject(jObj).getLifes());
-                            	  ridingHood.setPosition(GameObjectsJSONFactory.getGameObject(jObj).getPosition());
+                            	  ridingHood = (RidingHood_2) GameObjectsJSONFactory.getGameObject(jObj);
+                            	  //ridingHood = new RidingHood_2(new Position(0,0), GameObjectsJSONFactory.getGameObject(jObj).getValue(), GameObjectsJSONFactory.getGameObject(jObj).getLifes());
+                            	  //ridingHood.setPosition(GameObjectsJSONFactory.getGameObject(jObj).getPosition());
                             	  gObjs.add(ridingHood);
+                               }
+                               else {
+                               	gObjs.add(GameObjectsJSONFactory.getGameObject(jObj));
                                }
                               
                            }
@@ -297,7 +307,7 @@ public class Game_2 extends JFrame implements KeyListener, ActionListener {
        //setInLimitsBees();
         
         // Logic to change to a new screen.
-        if (processCell() <= 5){
+        if (processCell() <= 3){
             screenCounter++;
             ridingHood.incLifes(1);
             loadNewBoard(screenCounter);
@@ -453,13 +463,18 @@ public class Game_2 extends JFrame implements KeyListener, ActionListener {
               gObjs.add(new Blossom(new Position(2,8), 4, 10));
               gObjs.add(new Blossom(new Position(8,8), 10, 10));
               gObjs.add(new Blossom(new Position(8,2), 4, 10));
+              nivelesPasados++;
               break;
             case 1:
 
                 String path = "src/main/resources/games/nivel1.txt";
+                gObjs.remove(stone);
             	gObjs.remove(bees);
+            	bees.setPosition(new Position(-1,-1));
             	gObjs.remove(spider);
+            	spider.setPosition(new Position(-3,-3));
             	System.out.println("------- NUEVO NIVEL 1 ------- ");
+            	System.out.println("Contador de pantallas: " + screenCounter);
             	System.out.println("Abeja:" + bees.getPosition());
             	System.out.println("Araña:" + spider.getPosition());
             	System.out.println("Loading objects...");
@@ -474,19 +489,32 @@ public class Game_2 extends JFrame implements KeyListener, ActionListener {
                         	System.out.println("Mosca generada:" + fly.getPosition());
                         	gObjs.add(fly);
                          }
+                        else if(GameObjectsJSONFactory.getGameObject(jObj) instanceof Stone) {
+                        	stone = new Stone(new Position(0,0), GameObjectsJSONFactory.getGameObject(jObj).getValue(), GameObjectsJSONFactory.getGameObject(jObj).getLifes());
+                        	stone.setPosition(getRandomPosition(10,10));
+                        	gObjs.add(stone);
+                         }
                         else {
                         	gObjs.add(GameObjectsJSONFactory.getGameObject(jObj));
                         }
                     }                   
                 }
+                for(int i = 0 ; i<nivelesPasados ; i++) {
+                	gObjs.add(new Blossom(getRandomPosition(10,10), 4, (int)(Math.random()*20+1)));
+                }
                 System.out.println("------- NIVEL 1 CARGADO | EVENTOS ------- ");
+                nivelesPasados++;
                 break;
                 
             case 2:
                 String path1 = "src/main/resources/games/nivel2.txt";
+                gObjs.remove(stone);
             	gObjs.remove(fly);
+            	fly.setPosition(new Position(-2,-2));
             	gObjs.remove(spider);
+            	spider.setPosition(new Position(-3,-3));
             	System.out.println("------- NUEVO NIVEL 2 ------- ");
+            	System.out.println("Contador de pantallas: " + screenCounter);
             	System.out.println("Mosca:" + fly.getPosition());
             	System.out.println("Araña:" + spider.getPosition());
                 System.out.println("Loading objects...");
@@ -501,18 +529,31 @@ public class Game_2 extends JFrame implements KeyListener, ActionListener {
                         	System.out.println("Bee generada:" + bees.getPosition());
                         	gObjs.add(bees);
                          }
+                        else if(GameObjectsJSONFactory.getGameObject(jObj) instanceof Stone) {
+                        	stone = new Stone(new Position(0,0), GameObjectsJSONFactory.getGameObject(jObj).getValue(), GameObjectsJSONFactory.getGameObject(jObj).getLifes());
+                        	stone.setPosition(getRandomPosition(10,10));
+                        	gObjs.add(stone);
+                         }
                         else {
                         	gObjs.add(GameObjectsJSONFactory.getGameObject(jObj));
                         }
                     }                            
                 }
+                for(int i = 0 ; i<nivelesPasados ; i++) {
+                	gObjs.add(new Blossom(getRandomPosition(10,10), 4, (int)(Math.random()*20+1)));
+                }
                 System.out.println("------- NIVEL 2 CARGADO | EVENTOS ------- ");
+                nivelesPasados++;
                 break;
             case 3:
                 String path2 = "src/main/resources/games/nivel3.txt";
+                gObjs.remove(stone);
             	gObjs.remove(bees);
+            	bees.setPosition(new Position(-1,-1));
             	gObjs.remove(fly);
+            	fly.setPosition(new Position(-2,-2));
             	System.out.println("------- NUEVO NIVEL 3 ------- ");
+            	System.out.println("Contador de pantallas: " + screenCounter);
             	System.out.println("Abeja:" + bees.getPosition());
             	System.out.println("Mosca:" + fly.getPosition());
                 System.out.println("Loading objects...");
@@ -524,15 +565,24 @@ public class Game_2 extends JFrame implements KeyListener, ActionListener {
                         if(GameObjectsJSONFactory.getGameObject(jObj) instanceof Spider) {
                         	spider = new Spider(new Position(0,0), GameObjectsJSONFactory.getGameObject(jObj).getValue(), GameObjectsJSONFactory.getGameObject(jObj).getLifes(), gObjs);
                         	spider.setPosition(getRandomPosition(10,10));
-                        	System.out.println("Araña generada:" + bees.getPosition());
+                        	System.out.println("Araña generada:" + spider.getPosition());
                         	gObjs.add(spider);
+                         }
+                        else if(GameObjectsJSONFactory.getGameObject(jObj) instanceof Stone) {
+                        	stone = new Stone(new Position(0,0), GameObjectsJSONFactory.getGameObject(jObj).getValue(), GameObjectsJSONFactory.getGameObject(jObj).getLifes());
+                        	stone.setPosition(getRandomPosition(10,10));
+                        	gObjs.add(stone);
                          }
                         else {
                         	gObjs.add(GameObjectsJSONFactory.getGameObject(jObj));
                         } 
                     }                            
                 }
+                for(int i = 0 ; i<nivelesPasados ; i++) {
+                	gObjs.add(new Blossom(getRandomPosition(10,10), 4, (int)(Math.random()*20+1)));
+                }
                 System.out.println("------- NIVEL 3 CARGADO | EVENTOS ------- ");
+                nivelesPasados++;
                 break;
             default:
               screenCounter=0;

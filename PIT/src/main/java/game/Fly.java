@@ -50,6 +50,7 @@ public class Fly extends AbstractGameObject{
     public Position moveToNextPosition(){
     	Position position = new Position();
     	mov = (int)(Math.random()*4+1);
+    	
     	switch(mov) {
     	case 1:
     		position= this.getPosition();

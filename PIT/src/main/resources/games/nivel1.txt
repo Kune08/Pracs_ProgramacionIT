@@ -1,4 +1,5 @@
 {"mode":0,"lifes":1,"GIT_type":"Fly","position":{"GIT_type":"Position","x":6,"y":6},"value":1}
+{"mode":0,"lifes":1,"GIT_type":"Stone","position":{"GIT_type":"Position","x":3,"y":7},"value":0}
 {"mode":0,"lifes":1,"GIT_type":"Blossom","position":{"GIT_type":"Position","x":2,"y":3},"value":5}
 {"mode":0,"lifes":1,"GIT_type":"Blossom","position":{"GIT_type":"Position","x":9,"y":9},"value":5}
 {"mode":0,"lifes":1,"GIT_type":"Blossom","position":{"GIT_type":"Position","x":3,"y":2},"value":5}
