@@ -21,6 +21,7 @@ import java.awt.SystemColor;
 public class MenuPrincipal extends JFrame {
 
 	private JPanel contentPane;
+	public int activaMusica;
 
 	/**
 	 * Launch the application.
@@ -112,6 +113,7 @@ public class MenuPrincipal extends JFrame {
 		panel_1.add(lblAndrsRuz);
 		
 		JTextPane txtpnSeleccionaLos = new JTextPane();
+		txtpnSeleccionaLos.setEditable(false);
 		txtpnSeleccionaLos.setBackground(SystemColor.menu);
 		txtpnSeleccionaLos.setText("- Selecciona los paramétros\r\nque desees.\r\n- Pulsa sobre JUGAR.\r\n- Una vez dentro, con la barra\r\nespaciadora podrás parar y \r\nreanudar el juego.\r\n- En el menú ARCHIVO, podrás\r\ncargar y guardar tu partida.");
 		txtpnSeleccionaLos.setBounds(218, 37, 176, 118);
@@ -124,6 +126,8 @@ public class MenuPrincipal extends JFrame {
 		
 		btnJugar.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
+				
+				
 				String vistasGame = vistas.getSelectedItem().toString();
 				if(vistasGame.equals("Iconos")) {
 					GameCanvas.setVistas(2);
@@ -212,4 +216,5 @@ public class MenuPrincipal extends JFrame {
 			}
 		});
 	}
+
 }

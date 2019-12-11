@@ -94,6 +94,7 @@ public class Game extends JFrame implements KeyListener, ActionListener {
     // Para que CAPERUCITA funcione de forma automatica.
     int auto = 0;
     
+    
     // Game Variables
     
     ConcurrentLinkedQueue<IGameObject> gObjs = new ConcurrentLinkedQueue<IGameObject>();
@@ -137,10 +138,9 @@ public class Game extends JFrame implements KeyListener, ActionListener {
     	
     	musica = AudioSystem.getClip();
     	musica.open(AudioSystem.getAudioInputStream(new File("src/main/resources/sounds/musica_fondo.wav")));
-    	
     	musica.setFramePosition(0);
     	musica.loop(Clip.LOOP_CONTINUOUSLY);
-    	
+	
     	death = AudioSystem.getClip();
     	death.open(AudioSystem.getAudioInputStream(new File("src/main/resources/sounds/death.wav")));
 
@@ -433,7 +433,7 @@ public class Game extends JFrame implements KeyListener, ActionListener {
             // Mismo procedimiento que linea 337
             else if((gObj instanceof Spider) && !(gObj instanceof Fly) && !(gObj instanceof Stone) && spiPos.isEqual(gObj.getPosition())){
             	if(spiPos.isEqual(rhPos)) {
-            		ridingHood.setLifes(ridingHood.getLifes()-5);
+            		ridingHood.setLifes(ridingHood.getLifes()-1);
             		System.out.println("Una araña te ha pillado. -1 vida");
                     death.stop();
                     death.setFramePosition(0);
@@ -576,8 +576,6 @@ public class Game extends JFrame implements KeyListener, ActionListener {
 	        	spider.setPosition(new Position(-3,-3));
 	        	System.out.println("------- NUEVO NIVEL 1 ------- ");
 	        	System.out.println("Contador de pantallas: " + screenCounter);
-	        	System.out.println("Abeja:" + bees.getPosition());
-	        	System.out.println("Araña:" + spider.getPosition());
 	        	System.out.println("Cargando objetos...");
 	            JSONArray jArray = FileUtilities.readJsonsFromFile(path);
 	            if (jArray != null){
@@ -623,8 +621,6 @@ public class Game extends JFrame implements KeyListener, ActionListener {
             	spider.setPosition(new Position(-3,-3));
             	System.out.println("------- NUEVO NIVEL 2 ------- ");
             	System.out.println("Contador de pantallas: " + screenCounter);
-            	System.out.println("Mosca:" + fly.getPosition());
-            	System.out.println("Araña:" + spider.getPosition());
                 System.out.println("Cargando objetos...");
                 JSONArray jArray1 = FileUtilities.readJsonsFromFile(path1);
                 // Mismo procedimiento que al cargar el nivel 1
@@ -666,8 +662,6 @@ public class Game extends JFrame implements KeyListener, ActionListener {
             	fly.setPosition(new Position(-2,-2));
             	System.out.println("------- NUEVO NIVEL 3 ------- ");
             	System.out.println("Contador de pantallas: " + screenCounter);
-            	System.out.println("Abeja:" + bees.getPosition());
-            	System.out.println("Mosca:" + fly.getPosition());
                 System.out.println("Cargando objetos...");
                 JSONArray jArray2 = FileUtilities.readJsonsFromFile(path2);
                 // Mismo procedimiento que al cargar el nivel 1
@@ -721,6 +715,7 @@ public class Game extends JFrame implements KeyListener, ActionListener {
     }
     
     public static void main(String [] args) throws Exception{
-       Game gui = new Game(40,0);
+       MenuPrincipal m = new MenuPrincipal();
+       m.setVisible(true);
     }
 }
