@@ -4,26 +4,11 @@ _A continuación podrás ver proyecto final que se realizó en la asignatura de 
 
 ## Software necesario 📋
 
-_Para poder realizar estas prácticas necesitarás Eclipse o Netbeans
+_Para poder realizar estas prácticas necesitarás Eclipse o Netbeans._
 
 * Software a instalar
     * [Eclipse IDE for Java Developers](https://www.eclipse.org/downloads/)
     * [Java JDK 8](https://www.oracle.com/technetwork/java/javase/downloads/jdk8-downloads-2133151.html)
-
-* Solvers
-    * 32 bits
-        * [GLPK](http://www.net2plan.com/jom/externalsoftware/win32/glpk_4_48.dll)
-        * [IPOPT](http://www.net2plan.com/jom/externalsoftware/win32/Ipopt38.dll)
-    * 64 bits
-        * [GLPK](http://www.net2plan.com/jom/externalsoftware/win64/glpk_4_48.dll)
-        * [IPOPT](http://www.net2plan.com/jom/externalsoftware/win64/Ipopt38.dll)
-
-_Guarda los solvers en C:\Windows\System32, es posible que sea necesario copiarlos en la carpeta C:\Windows\system si tienes un sistema de 64 bits._
-
-
-## Deployment 📦
-
-![](docs/deployment.gif)
 
 ## Autores ✒️
 
