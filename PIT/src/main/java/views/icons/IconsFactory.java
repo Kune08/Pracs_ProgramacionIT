@@ -36,16 +36,16 @@ public class IconsFactory implements IViewFactory {
         else if (gObj instanceof RidingHood){
         	switch(((RidingHood)gObj).getDireccion()) {
         	case 1:
-        		view = new VIcon(gObj, "src/main/resources/images/caperucita.png", length);
+        		view = new VIcon(gObj, "src/main/resources/images/caperucita_der.png", length);
         		break;
         	case 2:
-        		view = new VIcon(gObj, "src/main/resources/images/caperucita.png", length);
+        		view = new VIcon(gObj, "src/main/resources/images/caperucita_izq.png", length);
         		break;
         	case 3:
-        		view = new VIcon(gObj, "src/main/resources/images/caperucita.png", length);
+        		view = new VIcon(gObj, "src/main/resources/images/caperucita_arriba.png", length);
         		break;
         	case 4:
-        		view = new VIcon(gObj, "src/main/resources/images/caperucita.png", length);
+        		view = new VIcon(gObj, "src/main/resources/images/caperucita_abajo.png", length);
         		break;
         	}
         } 

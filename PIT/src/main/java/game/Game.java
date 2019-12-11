@@ -86,7 +86,6 @@ public class Game extends JFrame implements KeyListener, ActionListener {
     int nivelesPasados = 1;
     int mitadTiempo = 0;
     
-
     // Timer
     Timer timer;
     int tick = 200;
@@ -362,6 +361,12 @@ public class Game extends JFrame implements KeyListener, ActionListener {
         setInLimitsFly();
         noPuedesPasar();
         
+        // Comprobación de las vidas de caperucita.
+        GameOver();
+        
+        // Comprobación de puntos de caperucita.
+        PuntosCaperucita();
+        
         // Logic to change to a new screen.
         // Minimo encontraremos 3 objetos, RidingHood, Stone y Fly, Bee o Spider
         if (processCell() <= 3){
@@ -521,6 +526,14 @@ public class Game extends JFrame implements KeyListener, ActionListener {
 	        	fly.position.y = lastBox;
         }
     }
+	
+	public void GameOver() {
+		if(ridingHood.getLifes()<=0) {System.exit(0);}
+	}
+	
+	public void PuntosCaperucita() {
+		if(ridingHood.getValue()<=0) {ridingHood.setValue(0);}
+	}
     
     
     /*
