@@ -34,7 +34,20 @@ public class IconsFactory implements IViewFactory {
            view = new VIcon(gObj, "src/main/resources/images/bee.png", length); 
         }  
         else if (gObj instanceof RidingHood){
-           view = new VIcon(gObj, "src/main/resources/images/caperucita.png", length); 
+        	switch(((RidingHood)gObj).getDireccion()) {
+        	case 1:
+        		view = new VIcon(gObj, "src/main/resources/images/caperucita.png", length);
+        		break;
+        	case 2:
+        		view = new VIcon(gObj, "src/main/resources/images/caperucita.png", length);
+        		break;
+        	case 3:
+        		view = new VIcon(gObj, "src/main/resources/images/caperucita.png", length);
+        		break;
+        	case 4:
+        		view = new VIcon(gObj, "src/main/resources/images/caperucita.png", length);
+        		break;
+        	}
         } 
         else if (gObj instanceof Spider){
            view = new VIcon(gObj, "src/main/resources/images/spider.png", length); 

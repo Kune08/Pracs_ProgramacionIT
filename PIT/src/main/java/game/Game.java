@@ -3,6 +3,26 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
+// _____                 _                           _             _                       
+//|_   _|               | |                         | |           (_)                      
+//  | |  _ __ ___  _ __ | | ___ _ __ ___   ___ _ __ | |_ __ _  ___ _  ___  _ __   ___  ___ 
+//  | | | '_ ` _ \| '_ \| |/ _ \ '_ ` _ \ / _ \ '_ \| __/ _` |/ __| |/ _ \| '_ \ / _ \/ __|
+// _| |_| | | | | | |_) | |  __/ | | | | |  __/ | | | || (_| | (__| | (_) | | | |  __/\__ \
+//|_____|_| |_| |_| .__/|_|\___|_| |_| |_|\___|_| |_|\__\__,_|\___|_|\___/|_| |_|\___||___/
+//                | |                                                                      
+//                |_| 
+//
+// JFileChooser -> Emilio Ramos Sorroche
+// Sonidos y animaciones -> Emilio Ramos Sorroche
+// Stone -> Diego Ismael Antolinos García
+
+//                    _               _____           
+//    /\             | |             |  __ \          
+//   /  \   _ __   __| |_ __ ___  ___| |__) |   _ ____
+//  / /\ \ | '_ \ / _` | '__/ _ \/ __|  _  / | | |_  /
+// / ____ \| | | | (_| | | |  __/\__ \ | \ \ |_| |/ / 
+///_/    \_\_| |_|\__,_|_|  \___||___/_|  \_\__,_/___|
+
 package game;
 
 import common.FileUtilities;
@@ -21,9 +41,7 @@ import java.net.URL;
 import java.util.ArrayList;
 import java.util.concurrent.ConcurrentLinkedQueue;
 
-import javax.sound.sampled.AudioSystem;
-import javax.sound.sampled.Clip;
-import javax.sound.sampled.LineUnavailableException;
+import javax.sound.sampled.*;
 import javax.swing.BorderFactory;
 import javax.swing.JFileChooser;
 import javax.swing.JFrame;
@@ -35,6 +53,8 @@ import javax.swing.JPanel;
 import javax.swing.SwingConstants;
 import javax.swing.Timer;
 import javax.swing.border.EtchedBorder;
+import javax.swing.filechooser.FileNameExtensionFilter;
+
 import org.json.JSONArray;
 import org.json.JSONObject;
 
@@ -64,6 +84,8 @@ public class Game extends JFrame implements KeyListener, ActionListener {
     int screenCounter = 0;
     int pantallaGuardada;
     int nivelesPasados = 1;
+    int mitadTiempo = 0;
+    
 
     // Timer
     Timer timer;
@@ -90,11 +112,17 @@ public class Game extends JFrame implements KeyListener, ActionListener {
     JMenuBar menuBar;
     JMenu menuVistas,menuCarga;
     JMenuItem itColores, itFiguras,itGeo, itCarga, itGuarda;
+    
+    // Sonidos
+    Clip beep;
+    Clip musica;
+    Clip death;
 
     // Pasamos por parametro el "boxSize" (con el fin de cambiar el tamaño de la cuadricula).
     // "auto" es un entero que varia entre 0 y 1 e indica si queremos que caperucita
     // funcione de forma automática.
     public Game(int boxSize, int auto) throws Exception{
+    	
     	super("Caperucita Roja | Andrés Ruz Nieto");
     	this.boxSize=boxSize;
     	this.auto=auto;
@@ -103,6 +131,18 @@ public class Game extends JFrame implements KeyListener, ActionListener {
     	gObjs.add(ridingHood);
     	gObjs.add(stone);
     	loadNewBoard(0);
+    	
+    	beep = AudioSystem.getClip();
+    	beep.open(AudioSystem.getAudioInputStream(new File("src/main/resources/sounds/beep.wav")));
+    	
+    	musica = AudioSystem.getClip();
+    	musica.open(AudioSystem.getAudioInputStream(new File("src/main/resources/sounds/musica_fondo.wav")));
+    	
+    	musica.loop(Clip.LOOP_CONTINUOUSLY);
+    	
+    	death = AudioSystem.getClip();
+    	death.open(AudioSystem.getAudioInputStream(new File("src/main/resources/sounds/death.wav")));
+
        
   
        // Window initializations.
@@ -162,18 +202,23 @@ public class Game extends JFrame implements KeyListener, ActionListener {
 			new ActionListener(){       
 				public void actionPerformed(ActionEvent ae){
 					timer.stop();
-					String path = "src/main/resources/games/guardado.txt";
-					System.out.println("Guardando objetos...");
-					if (gObjs != null){
-						JSONObject jObjs [] = new JSONObject[gObjs.size()];
-						int i=0;
-						for (IGameObject igo : gObjs){
-							jObjs[i++] = ((IToJsonObject)igo).toJSONObject();
+					JFileChooser fileChooser = new JFileChooser();
+                    fileChooser.setCurrentDirectory(new File("src/main/resources/games/saves"));
+                    int seleccion = fileChooser.showSaveDialog(canvas);
+                    File fichero = fileChooser.getSelectedFile();
+                    if (seleccion == JFileChooser.APPROVE_OPTION){
+						System.out.println("Guardando objetos...");
+						if (gObjs != null){
+							JSONObject jObjs [] = new JSONObject[gObjs.size()];
+							int i=0;
+							for (IGameObject igo : gObjs){
+								jObjs[i++] = ((IToJsonObject)igo).toJSONObject();
+							}
+							FileUtilities.writeJsonsToFile(jObjs, fichero.getPath()+".txt");
 						}
-						FileUtilities.writeJsonsToFile(jObjs, path);
-					}
-					requestFocusInWindow();
-				}
+						requestFocusInWindow();
+                    }
+                }
 			}
 		);
        
@@ -181,63 +226,68 @@ public class Game extends JFrame implements KeyListener, ActionListener {
 		   new ActionListener(){  
 			   public void actionPerformed(ActionEvent ae){
 				   System.out.println("Nivel CARGADO: " + screenCounter);
-				   String path = "src/main/resources/games/guardado.txt";
-				   System.out.println("Cargando objetos...");
-				   JSONArray jArray = FileUtilities.readJsonsFromFile(path);
-				   if (jArray != null){
-					   gObjs = new ConcurrentLinkedQueue<IGameObject>();
-					   for (int i = 0; i < jArray.length(); i++){
-						   JSONObject jObj = jArray.getJSONObject(i);
-						   String typeLabel = jObj.getString(TypeLabel);
-						   // Si el objeto es una instancia de Bee
-						   if(GameObjectsJSONFactory.getGameObject(jObj) instanceof Bee) {
-							   // Colocamos screenCounter a 2 para que la siguiente pantalla sea la 3 (ya que 
-							   // tenemos que seguir el orden de Fly, Bee, Spider)
-							   screenCounter=2;
-							   // Generamos una Bee en 0,0 con los valores que obtenemos del JSON
-							   bees = new Bee(new Position(0,0), GameObjectsJSONFactory.getGameObject(jObj).getValue(), GameObjectsJSONFactory.getGameObject(jObj).getLifes(), gObjs);
-							   // Modificamos su posición moviéndola a la posición que se nos da el JSON
-							   bees.setPosition(GameObjectsJSONFactory.getGameObject(jObj).getPosition());
-							   // Añadimos la abeja a la lista de objetos.
-							   gObjs.add(bees);
-						   }
-						   // Si el objeto es una instancia de Fly, ver explicación en Bee
-						   else if(GameObjectsJSONFactory.getGameObject(jObj) instanceof Fly) {
-							   screenCounter=1;
-							   fly = new Fly(new Position(0,0), GameObjectsJSONFactory.getGameObject(jObj).getValue(), GameObjectsJSONFactory.getGameObject(jObj).getLifes(), gObjs);
-							   fly.setPosition(GameObjectsJSONFactory.getGameObject(jObj).getPosition());
-							   gObjs.add(fly);
-						   }
-						   // Si el objeto es una instancia de Spider, ver explicación en Bee
-						   else if(GameObjectsJSONFactory.getGameObject(jObj) instanceof Spider) {
-							   screenCounter=3;	  
-							   spider = new Spider(new Position(0,0), GameObjectsJSONFactory.getGameObject(jObj).getValue(), GameObjectsJSONFactory.getGameObject(jObj).getLifes(), gObjs);
-							   spider.setPosition(GameObjectsJSONFactory.getGameObject(jObj).getPosition());
-							   gObjs.add(spider);
-						   }
-						   // Si el objeto es una instancia de Stone, ver explicación en Bee
-						   else if(GameObjectsJSONFactory.getGameObject(jObj) instanceof Stone) {
-							   stone = (Stone) GameObjectsJSONFactory.getGameObject(jObj);
-							   gObjs.add(stone);
-						   }    
-						   // Si el objeto es una instancia de RidingHood_2, ver explicación en Bee
-						   else if(GameObjectsJSONFactory.getGameObject(jObj) instanceof RidingHood) {
-							   ridingHood = new RidingHood(new Position(0,0), GameObjectsJSONFactory.getGameObject(jObj).getValue(), GameObjectsJSONFactory.getGameObject(jObj).getLifes(), gObjs);
-							   ridingHood.setPosition(GameObjectsJSONFactory.getGameObject(jObj).getPosition());
-							   gObjs.add(ridingHood);
-                           	}
-						   // Si no es ninguno de los anteriores, será un BLOSSOM
-						   else {
-							   gObjs.add(GameObjectsJSONFactory.getGameObject(jObj));
-                           }      
-                       }
-					   // Saca por pantalla los objetos que se han creado
-                       printGameItems(); 
-                       // Pintamos en el canvas los objetos
-                       canvas.drawObjects(gObjs);
-                   }  
-                       requestFocusInWindow();          
-              	}
+				   JFileChooser fileChooser = new JFileChooser();
+                   fileChooser.setCurrentDirectory(new File("src/main/resources/games/saves"));
+                   int seleccion = fileChooser.showOpenDialog(canvas);
+                   File fichero = fileChooser.getSelectedFile();
+                   if (seleccion == JFileChooser.APPROVE_OPTION){
+					   System.out.println("Cargando objetos...");
+					   JSONArray jArray = FileUtilities.readJsonsFromFile(fichero.toString());
+					   if (jArray != null){
+						   gObjs = new ConcurrentLinkedQueue<IGameObject>();
+						   for (int i = 0; i < jArray.length(); i++){
+							   JSONObject jObj = jArray.getJSONObject(i);
+							   String typeLabel = jObj.getString(TypeLabel);
+							   // Si el objeto es una instancia de Bee
+							   if(GameObjectsJSONFactory.getGameObject(jObj) instanceof Bee) {
+								   // Colocamos screenCounter a 2 para que la siguiente pantalla sea la 3 (ya que 
+								   // tenemos que seguir el orden de Fly, Bee, Spider)
+								   screenCounter=2;
+								   // Generamos una Bee en 0,0 con los valores que obtenemos del JSON
+								   bees = new Bee(new Position(0,0), GameObjectsJSONFactory.getGameObject(jObj).getValue(), GameObjectsJSONFactory.getGameObject(jObj).getLifes(), gObjs);
+								   // Modificamos su posición moviéndola a la posición que se nos da el JSON
+								   bees.setPosition(GameObjectsJSONFactory.getGameObject(jObj).getPosition());
+								   // Añadimos la abeja a la lista de objetos.
+								   gObjs.add(bees);
+							   }
+							   // Si el objeto es una instancia de Fly, ver explicación en Bee
+							   else if(GameObjectsJSONFactory.getGameObject(jObj) instanceof Fly) {
+								   screenCounter=1;
+								   fly = new Fly(new Position(0,0), GameObjectsJSONFactory.getGameObject(jObj).getValue(), GameObjectsJSONFactory.getGameObject(jObj).getLifes(), gObjs);
+								   fly.setPosition(GameObjectsJSONFactory.getGameObject(jObj).getPosition());
+								   gObjs.add(fly);
+							   }
+							   // Si el objeto es una instancia de Spider, ver explicación en Bee
+							   else if(GameObjectsJSONFactory.getGameObject(jObj) instanceof Spider) {
+								   screenCounter=3;	  
+								   spider = new Spider(new Position(0,0), GameObjectsJSONFactory.getGameObject(jObj).getValue(), GameObjectsJSONFactory.getGameObject(jObj).getLifes(), gObjs);
+								   spider.setPosition(GameObjectsJSONFactory.getGameObject(jObj).getPosition());
+								   gObjs.add(spider);
+							   }
+							   // Si el objeto es una instancia de Stone, ver explicación en Bee
+							   else if(GameObjectsJSONFactory.getGameObject(jObj) instanceof Stone) {
+								   stone = (Stone) GameObjectsJSONFactory.getGameObject(jObj);
+								   gObjs.add(stone);
+							   }    
+							   // Si el objeto es una instancia de RidingHood_2, ver explicación en Bee
+							   else if(GameObjectsJSONFactory.getGameObject(jObj) instanceof RidingHood) {
+								   ridingHood = new RidingHood(new Position(0,0), GameObjectsJSONFactory.getGameObject(jObj).getValue(), GameObjectsJSONFactory.getGameObject(jObj).getLifes(), gObjs);
+								   ridingHood.setPosition(GameObjectsJSONFactory.getGameObject(jObj).getPosition());
+								   gObjs.add(ridingHood);
+	                           	}
+							   // Si no es ninguno de los anteriores, será un BLOSSOM
+							   else {
+								   gObjs.add(GameObjectsJSONFactory.getGameObject(jObj));
+	                           }      
+	                       }
+						   // Saca por pantalla los objetos que se han creado
+	                       printGameItems(); 
+	                       // Pintamos en el canvas los objetos
+	                       canvas.drawObjects(gObjs);
+	                   }  
+	                       requestFocusInWindow();          
+	              	}
+                }
        		}
    		);
        
@@ -272,9 +322,11 @@ public class Game extends JFrame implements KeyListener, ActionListener {
     	if (lastKey == SPACE_KEY){
             if (timer.isRunning()){
         		timer.stop();
+        		musica.stop();
             }
             else {
             	timer.start();
+            	musica.loop(Clip.LOOP_CONTINUOUSLY);
             }
         }
     }
@@ -300,7 +352,10 @@ public class Game extends JFrame implements KeyListener, ActionListener {
         // Si están en la pantalla que toca se habilitará el movimiento del "bicho"
         if(screenCounter==1) {fly.moveToNextPosition();}
         if(screenCounter==2) {bees.moveToNextPosition();}
-        if(screenCounter==3) {spider.moveToNextPosition();}
+        if(screenCounter==3) {
+        	if(mitadTiempo==1) {spider.moveToNextPosition(); mitadTiempo=0;}
+        	else {mitadTiempo=1;}
+        }
         
         // Check if Caperucita is in board limits
         setInLimits();
@@ -339,6 +394,9 @@ public class Game extends JFrame implements KeyListener, ActionListener {
                 // Sumamos el valor del objeto al del objeto.
             	int v = ridingHood.getValue() + gObj.getValue();
                 ridingHood.setValue(v);
+                beep.stop();
+                beep.setFramePosition(0);
+                beep.start();
                 gObjs.remove(gObj);
             }
             // Mismo procedimiento que linea 337
@@ -346,6 +404,9 @@ public class Game extends JFrame implements KeyListener, ActionListener {
             	if(bePos.isEqual(rhPos)) {
             		ridingHood.setValue(ridingHood.getValue()-5);
             		System.out.println("Has chocado contra una abeja. -5 puntos");
+                    death.stop();
+                    death.setFramePosition(0);
+                    death.start();
             	}
             	else {
                 gObjs.remove(gObj);
@@ -356,6 +417,9 @@ public class Game extends JFrame implements KeyListener, ActionListener {
             	if(spiPos.isEqual(rhPos)) {
             		ridingHood.setLifes(ridingHood.getLifes()-1);
             		System.out.println("Una araña te ha pillado. -1 vida");
+                    death.stop();
+                    death.setFramePosition(0);
+                    death.start();
             		gObjs.remove(spider);
             	}
             }
@@ -364,6 +428,9 @@ public class Game extends JFrame implements KeyListener, ActionListener {
             	if(flyPos.isEqual(rhPos)) {
             		ridingHood.setValue(ridingHood.getValue()-10);
             		System.out.println("Una mosca te ha pillado. -10 puntos");
+                    death.stop();
+                    death.setFramePosition(0);
+                    death.start();
             		gObjs.remove(fly);
             	}
             }

@@ -19,6 +19,7 @@ import org.json.JSONObject;
 public class RidingHood extends AbstractGameObject {
     
     int dX, dY;
+    int direccion = 1;
     ConcurrentLinkedQueue<IGameObject> gObjs = new ConcurrentLinkedQueue<IGameObject>();
 
     RidingHood(Position position) {
@@ -55,18 +56,22 @@ public class RidingHood extends AbstractGameObject {
     
     public void moveRigth(){
         dY = 0; dX = 1;
+        direccion = 1;
     }
     
     public void moveLeft(){
         dY = 0; dX = -1;
+        direccion = 2;
     }
     
     public void moveUp(){
         dY = -1; dX = 0;
+        direccion = 3;
     }
     
     public void moveDown(){
         dY = 1; dX = 0;
+        direccion = 4;
     }
     
 public Position moveToNextPositionAuto(){
@@ -95,6 +100,10 @@ public Position moveToNextPositionAuto(){
         if (position.y != p.y){
             position.y = position.y > p.y? position.y-1:position.y+1;
         }
-    }   
- 
+    } 
+    
+    public int getDireccion() {
+    	return direccion;
+    }
+     
 }
