@@ -15,7 +15,7 @@ import views.AbstractGameView;
 
 /**
  *
- * @author juanangel
+ * @author aruznieto
  */
 public class VNumberedBox extends AbstractGameView {
     

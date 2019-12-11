@@ -16,7 +16,7 @@ import views.AbstractGameView;
 
 /**
  *
- * @author japf
+ * @author aruznieto
  */
 public class VFigStone extends AbstractGameView {
 

@@ -9,7 +9,7 @@ import java.io.*;
 
 /**
  *
- * @author japf
+ * @author aruznieto
  */
 public class KeyBoard {
     

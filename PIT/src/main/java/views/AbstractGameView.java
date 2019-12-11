@@ -10,7 +10,7 @@ import game.IGameObject;
 
 /**
  *
- * @author juanangel
+ * @author aruznieto
  */
 public abstract class AbstractGameView implements IAWTGameView{
     

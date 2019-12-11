@@ -57,7 +57,7 @@ import org.json.JSONObject;
 
 /**
  *
- * @author juanangel
+ * @author aruznieto
  */
 public class Game extends JFrame implements KeyListener, ActionListener {
 

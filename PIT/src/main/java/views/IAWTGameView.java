@@ -9,7 +9,7 @@ import java.awt.Graphics;
 
 /**
  * Defines a common interface for the views
- * @author japf
+ * @author aruznieto
  */
 public interface IAWTGameView {
     

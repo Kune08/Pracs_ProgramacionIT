@@ -19,7 +19,7 @@ import views.IViewFactory;
 
 /**
  *
- * @author juanangel
+ * @author aruznieto
  */
 public class BoxesFactory implements IViewFactory {
     

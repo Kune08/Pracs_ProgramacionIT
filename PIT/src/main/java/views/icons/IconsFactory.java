@@ -18,7 +18,7 @@ import views.IViewFactory;
 
 /**
  *
- * @author juanangel
+ * @author aruznieto
  */
 public class IconsFactory implements IViewFactory {
     

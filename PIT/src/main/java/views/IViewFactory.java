@@ -9,7 +9,7 @@ import game.IGameObject;
 
 /**
  *
- * @author juanangel
+ * @author aruznieto
  */
 public interface IViewFactory {
    IAWTGameView getView(IGameObject gObj, int length) throws Exception; 

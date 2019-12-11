@@ -20,7 +20,7 @@ import java.awt.Graphics2D;
 
 /**
  *
- * @author juanangel
+ * @author aruznieto
  */
 public class VFigBee extends AbstractGameView {
     

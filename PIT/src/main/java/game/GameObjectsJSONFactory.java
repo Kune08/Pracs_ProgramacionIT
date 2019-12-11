@@ -10,7 +10,7 @@ import org.json.JSONObject;
 
 /**
  *
- * @author juanangel
+ * @author aruznieto
  */
 public class GameObjectsJSONFactory {
     

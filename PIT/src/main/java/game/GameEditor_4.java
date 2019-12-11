@@ -40,7 +40,7 @@ import views.boxes.VNumberedCircle;
 
 /**
  *
- * @author juanangel
+ * @author aruznieto
  */
 public class GameEditor_4 extends JFrame implements KeyListener {
     

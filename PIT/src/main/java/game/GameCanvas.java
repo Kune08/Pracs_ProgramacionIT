@@ -18,7 +18,7 @@ import views.icons.IconsFactory;
 
 /**
  *
- * @author juanangel
+ * @author aruznieto
  */
 public class GameCanvas extends JPanel {
 	

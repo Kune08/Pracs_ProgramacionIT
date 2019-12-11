@@ -17,7 +17,7 @@ import java.awt.Polygon;
 
 /**
  *
- * @author juanangel
+ * @author aruznieto
  */
 public class VFigHood extends AbstractGameView {
     

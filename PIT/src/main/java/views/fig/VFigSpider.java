@@ -16,7 +16,7 @@ import java.awt.Graphics2D;
 
 /**
  *
- * @author juanangel
+ * @author aruznieto
  */
 public class VFigSpider extends AbstractGameView {
     

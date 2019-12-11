@@ -8,7 +8,7 @@ package game;
 
 /**
  * Describes a common interface for all the game elements
- * @author japf
+ * @author aruznieto
  */
 public interface IGameObject {
         

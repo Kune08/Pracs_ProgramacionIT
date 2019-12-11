@@ -9,7 +9,7 @@ import org.json.JSONObject;
 
 /**
  *
- * @author japf
+ * @author aruznieto
  */
 public interface IToJsonObject {
     public static final String TypeLabel = "GIT_type";

@@ -12,7 +12,7 @@ import org.json.JSONObject;
 
 /**
  *
- * @author juanangel
+ * @author aruznieto
  */
 public abstract class AbstractGameObject implements IGameObject, IToJsonObject{
     

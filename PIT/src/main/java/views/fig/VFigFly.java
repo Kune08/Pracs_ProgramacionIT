@@ -16,7 +16,7 @@ import java.awt.Graphics2D;
 
 /**
  *
- * @author juanangel
+ * @author aruznieto
  */
 public class VFigFly extends AbstractGameView {
     

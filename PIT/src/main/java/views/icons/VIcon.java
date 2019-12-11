@@ -1,3 +1,8 @@
+/**
+ *
+ * @author aruznieto
+ */
+
 package views.icons;
 
 import game.IGameObject;

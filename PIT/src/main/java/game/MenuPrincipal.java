@@ -1,3 +1,8 @@
+/**
+ * 
+ * @author aruznieto
+ */
+
 package game;
 
 import java.awt.BorderLayout;

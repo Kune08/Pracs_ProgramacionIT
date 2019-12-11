@@ -19,7 +19,7 @@ import java.awt.Color;
 
 /**
  *
- * @author juanangel
+ * @author aruznieto
  */
 public class GameObjectViewFactory {
     
