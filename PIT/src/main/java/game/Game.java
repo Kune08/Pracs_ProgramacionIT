@@ -37,6 +37,7 @@ import java.awt.event.ActionListener;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
 import java.io.File;
+import java.io.IOException;
 import java.net.URL;
 import java.util.ArrayList;
 import java.util.concurrent.ConcurrentLinkedQueue;
@@ -137,6 +138,7 @@ public class Game extends JFrame implements KeyListener, ActionListener {
     	musica = AudioSystem.getClip();
     	musica.open(AudioSystem.getAudioInputStream(new File("src/main/resources/sounds/musica_fondo.wav")));
     	
+    	musica.setFramePosition(0);
     	musica.loop(Clip.LOOP_CONTINUOUSLY);
     	
     	death = AudioSystem.getClip();
@@ -362,7 +364,18 @@ public class Game extends JFrame implements KeyListener, ActionListener {
         noPuedesPasar();
         
         // Comprobación de las vidas de caperucita.
-        GameOver();
+        try {
+			Fin();
+		} catch (LineUnavailableException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} catch (UnsupportedAudioFileException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
         
         // Comprobación de puntos de caperucita.
         PuntosCaperucita();
@@ -420,7 +433,7 @@ public class Game extends JFrame implements KeyListener, ActionListener {
             // Mismo procedimiento que linea 337
             else if((gObj instanceof Spider) && !(gObj instanceof Fly) && !(gObj instanceof Stone) && spiPos.isEqual(gObj.getPosition())){
             	if(spiPos.isEqual(rhPos)) {
-            		ridingHood.setLifes(ridingHood.getLifes()-1);
+            		ridingHood.setLifes(ridingHood.getLifes()-5);
             		System.out.println("Una araña te ha pillado. -1 vida");
                     death.stop();
                     death.setFramePosition(0);
@@ -527,8 +540,14 @@ public class Game extends JFrame implements KeyListener, ActionListener {
         }
     }
 	
-	public void GameOver() {
-		if(ridingHood.getLifes()<=0) {System.exit(0);}
+	public void Fin() throws LineUnavailableException, IOException, UnsupportedAudioFileException {
+		if(ridingHood.getLifes()<=0) {
+			timer.stop();
+			musica.stop();
+			GameOver go = new GameOver(ridingHood.getValue(), nivelesPasados);
+			go.setVisible(true);
+			dispose();
+		}
 	}
 	
 	public void PuntosCaperucita() {
