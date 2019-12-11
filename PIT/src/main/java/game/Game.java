@@ -86,6 +86,7 @@ public class Game extends JFrame implements KeyListener, ActionListener {
     int pantallaGuardada;
     int nivelesPasados = 1;
     int numBichos = 1;
+    int restoBichos = 0;
     int mitadTiempo = 0;
     
     // Timer
@@ -272,6 +273,7 @@ public class Game extends JFrame implements KeyListener, ActionListener {
 	                       printGameItems(); 
 	                       // Pintamos en el canvas los objetos
 	                       canvas.drawObjects(gObjs);
+	                       restoBichos=numResiduo();
 	                   }  
 	                       requestFocusInWindow();          
 	              	}
@@ -385,7 +387,7 @@ public class Game extends JFrame implements KeyListener, ActionListener {
         
         // Logic to change to a new screen.
         // Minimo encontraremos 3 objetos, RidingHood, Stone y Fly, Bee o Spider
-        if (processCell() <= numResiduo()+1){
+        if (processCell() <= restoBichos+1){
             screenCounter++;
             ridingHood.incLifes(1);
             loadNewBoard(screenCounter);
@@ -604,14 +606,9 @@ public class Game extends JFrame implements KeyListener, ActionListener {
 	                    JSONObject jObj = jArray.getJSONObject(i);
 	                    String typeLabel = jObj.getString(TypeLabel);
 						// Si el objeto es una instancia de Fly
-	                    if(GameObjectsJSONFactory.getGameObject(jObj) instanceof Stone) {
-	                    	gObjs.add(new Stone(getRandomPosition(CANVAS_WIDTH/boxSize,CANVAS_WIDTH/boxSize), GameObjectsJSONFactory.getGameObject(jObj).getValue(), GameObjectsJSONFactory.getGameObject(jObj).getLifes()));
-	                     }
-	                    else {
-	                    	if(GameObjectsJSONFactory.getGameObject(jObj).getPosition().getX()<CANVAS_WIDTH/boxSize && GameObjectsJSONFactory.getGameObject(jObj).getPosition().getY()<CANVAS_WIDTH/boxSize) {
-	                    		gObjs.add(GameObjectsJSONFactory.getGameObject(jObj));
-	                    	}
-	                    }
+                    	if(GameObjectsJSONFactory.getGameObject(jObj).getPosition().getX()<CANVAS_WIDTH/boxSize && GameObjectsJSONFactory.getGameObject(jObj).getPosition().getY()<CANVAS_WIDTH/boxSize) {
+                    		gObjs.add(GameObjectsJSONFactory.getGameObject(jObj));
+                    	}
 	                }                   
 	            }
 	            // Generamos BLOSSOMS de forma aleatoria. X BLOSSOMS como pantallas nos hayamos pasado
@@ -620,9 +617,13 @@ public class Game extends JFrame implements KeyListener, ActionListener {
 	            }
                 for(int i = 0 ; i<=numBichos ; i++) {
                 	gObjs.add(new Fly(getRandomPosition(CANVAS_WIDTH/boxSize,CANVAS_WIDTH/boxSize), 4, 1, gObjs));
+                	gObjs.add(new Stone(getRandomPosition(CANVAS_WIDTH/boxSize,CANVAS_WIDTH/boxSize), 4, 1));
+
                 }
 	            System.out.println("------- NIVEL 1 CARGADO | EVENTOS ------- ");
                 System.out.println(nivelesPasados + " objetos generados aleatoriamente");
+                restoBichos=numResiduo();
+                System.out.println("Hay " + restoBichos + " que no son BLOSSOMS.");
 	            nivelesPasados++;
                 break;
                 
@@ -639,14 +640,9 @@ public class Game extends JFrame implements KeyListener, ActionListener {
                 	for (int i = 0; i < jArray1.length(); i++){
                         JSONObject jObj = jArray1.getJSONObject(i);
                         String typeLabel = jObj.getString(TypeLabel);
-                        if(GameObjectsJSONFactory.getGameObject(jObj) instanceof Stone) {
-	                    	gObjs.add(new Stone(getRandomPosition(CANVAS_WIDTH/boxSize,CANVAS_WIDTH/boxSize), GameObjectsJSONFactory.getGameObject(jObj).getValue(), GameObjectsJSONFactory.getGameObject(jObj).getLifes()));
-                         }
-                        else {
-	                    	if(GameObjectsJSONFactory.getGameObject(jObj).getPosition().getX()<CANVAS_WIDTH/boxSize && GameObjectsJSONFactory.getGameObject(jObj).getPosition().getY()<CANVAS_WIDTH/boxSize) {
-	                    		gObjs.add(GameObjectsJSONFactory.getGameObject(jObj));
-	                    	}
-                        }
+                    	if(GameObjectsJSONFactory.getGameObject(jObj).getPosition().getX()<CANVAS_WIDTH/boxSize && GameObjectsJSONFactory.getGameObject(jObj).getPosition().getY()<CANVAS_WIDTH/boxSize) {
+                    		gObjs.add(GameObjectsJSONFactory.getGameObject(jObj));
+                    	}
                     }                            
                 }
                 for(int i = 0 ; i<nivelesPasados ; i++) {
@@ -654,9 +650,12 @@ public class Game extends JFrame implements KeyListener, ActionListener {
                 }
                 for(int i = 0 ; i<=numBichos ; i++) {
                 	gObjs.add(new Bee(getRandomPosition(CANVAS_WIDTH/boxSize,CANVAS_WIDTH/boxSize), 4, 1, gObjs));
+                	gObjs.add(new Stone(getRandomPosition(CANVAS_WIDTH/boxSize,CANVAS_WIDTH/boxSize), 4, 1));
                 }
                 System.out.println("------- NIVEL 2 CARGADO | EVENTOS ------- ");
                 System.out.println(nivelesPasados + " objetos generados aleatoriamente");
+                restoBichos=numResiduo();
+                System.out.println("Hay " + restoBichos + " que no son BLOSSOMS.");
                 nivelesPasados++;
                 break;
             case 3:
@@ -672,14 +671,9 @@ public class Game extends JFrame implements KeyListener, ActionListener {
                 	for (int i = 0; i < jArray2.length(); i++){
                         JSONObject jObj = jArray2.getJSONObject(i);
                         String typeLabel = jObj.getString(TypeLabel);
-                        if(GameObjectsJSONFactory.getGameObject(jObj) instanceof Stone) {
-	                    	gObjs.add(new Stone(getRandomPosition(CANVAS_WIDTH/boxSize,CANVAS_WIDTH/boxSize), GameObjectsJSONFactory.getGameObject(jObj).getValue(), GameObjectsJSONFactory.getGameObject(jObj).getLifes()));
-                         }
-                        else {
-	                    	if(GameObjectsJSONFactory.getGameObject(jObj).getPosition().getX()<CANVAS_WIDTH/boxSize && GameObjectsJSONFactory.getGameObject(jObj).getPosition().getY()<CANVAS_WIDTH/boxSize) {
-	                    		gObjs.add(GameObjectsJSONFactory.getGameObject(jObj));
-	                    	}
-                        } 
+                    	if(GameObjectsJSONFactory.getGameObject(jObj).getPosition().getX()<CANVAS_WIDTH/boxSize && GameObjectsJSONFactory.getGameObject(jObj).getPosition().getY()<CANVAS_WIDTH/boxSize) {
+                    		gObjs.add(GameObjectsJSONFactory.getGameObject(jObj));
+                    	}
                     }                            
                 }
                 for(int i = 0 ; i<nivelesPasados ; i++) {
@@ -687,9 +681,13 @@ public class Game extends JFrame implements KeyListener, ActionListener {
                 }
                 for(int i = 0 ; i<=numBichos ; i++) {
                 	gObjs.add(new Spider(getRandomPosition(CANVAS_WIDTH/boxSize,CANVAS_WIDTH/boxSize), 4, 1, gObjs));
+                	gObjs.add(new Stone(getRandomPosition(CANVAS_WIDTH/boxSize,CANVAS_WIDTH/boxSize), 4, 1));
+
                 }
                 System.out.println("------- NIVEL 3 CARGADO | EVENTOS ------- ");
                 System.out.println(nivelesPasados + " objetos generados aleatoriamente");
+                restoBichos=numResiduo();
+                System.out.println("Hay " + restoBichos + " que no son BLOSSOMS.");
                 nivelesPasados++;
                 numBichos++;
                 break;
