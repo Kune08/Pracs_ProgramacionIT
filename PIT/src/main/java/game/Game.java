@@ -686,6 +686,7 @@ public class Game extends JFrame implements KeyListener, ActionListener {
                 System.out.println("Hay " + restoBichos + " que no son BLOSSOMS.");
                 nivelesPasados++;
                 numBichos++;
+                if(numBichos==5) {numBichos=5;}
                 break;
             default:
             	screenCounter=0;
