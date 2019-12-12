@@ -118,6 +118,7 @@ public class Game extends JFrame implements KeyListener, ActionListener {
     public Game(int boxSize, int auto) throws Exception{
     	
     	super("Caperucita Roja | Andrés Ruz Nieto");
+    	
     	this.boxSize=boxSize;
     	this.auto=auto;
        
@@ -439,7 +440,8 @@ public class Game extends JFrame implements KeyListener, ActionListener {
             		if(spider instanceof Spider) {
 	            		Position spiPos=((Spider)spider).getPosition();
 	            		if(spiPos.isEqual(rhPos)) {
-	                		ridingHood.setLifes(ridingHood.getLifes()-1);
+	            			if(numBichos==5) {ridingHood.setLifes(ridingHood.getLifes()-2);}
+	            			else {ridingHood.setLifes(ridingHood.getLifes()-1);}
 	                		System.out.println("Una araña te ha pillado. -1 vida");
 	                        death.stop();
 	                        death.setFramePosition(0);
@@ -609,7 +611,7 @@ public class Game extends JFrame implements KeyListener, ActionListener {
 	            }
 	            // Generamos BLOSSOMS de forma aleatoria. X BLOSSOMS como pantallas nos hayamos pasado
 	            for(int i = 0 ; i<nivelesPasados ; i++) {
-	            	gObjs.add(new Blossom(getRandomPosition(CANVAS_WIDTH/boxSize,CANVAS_WIDTH/boxSize), 4, (int)(Math.random()*20+1)));
+	            	gObjs.add(new Blossom(getRandomPosition(CANVAS_WIDTH/boxSize,CANVAS_WIDTH/boxSize), (int)(Math.random()*20+1), 4));
 	            }
                 for(int i = 0 ; i<=numBichos ; i++) {
                 	gObjs.add(new Fly(getRandomPosition(CANVAS_WIDTH/boxSize,CANVAS_WIDTH/boxSize), 4, 1, gObjs));
@@ -642,7 +644,7 @@ public class Game extends JFrame implements KeyListener, ActionListener {
                     }                            
                 }
                 for(int i = 0 ; i<nivelesPasados ; i++) {
-                	gObjs.add(new Blossom(getRandomPosition(CANVAS_WIDTH/boxSize,CANVAS_WIDTH/boxSize), 4, (int)(Math.random()*20+1)));
+                	gObjs.add(new Blossom(getRandomPosition(CANVAS_WIDTH/boxSize,CANVAS_WIDTH/boxSize), (int)(Math.random()*20+1), 4));
                 }
                 for(int i = 0 ; i<=numBichos ; i++) {
                 	gObjs.add(new Bee(getRandomPosition(CANVAS_WIDTH/boxSize,CANVAS_WIDTH/boxSize), 4, 1, gObjs));
@@ -673,7 +675,7 @@ public class Game extends JFrame implements KeyListener, ActionListener {
                     }                            
                 }
                 for(int i = 0 ; i<nivelesPasados ; i++) {
-                	gObjs.add(new Blossom(getRandomPosition(CANVAS_WIDTH/boxSize,CANVAS_WIDTH/boxSize), 4, (int)(Math.random()*20+1)));
+                	gObjs.add(new Blossom(getRandomPosition(CANVAS_WIDTH/boxSize,CANVAS_WIDTH/boxSize), (int)(Math.random()*20+1), 4));
                 }
                 for(int i = 0 ; i<=numBichos ; i++) {
                 	gObjs.add(new Spider(getRandomPosition(CANVAS_WIDTH/boxSize,CANVAS_WIDTH/boxSize), 4, 1, gObjs));
@@ -704,7 +706,7 @@ public class Game extends JFrame implements KeyListener, ActionListener {
     private int numResiduo() {
     	int num = gObjs.size();
     	for(IGameObject igo : gObjs) {
-    		if(!(igo instanceof RidingHood) && !(igo instanceof Stone) && !(igo instanceof Fly) && !(igo instanceof Bee) && !(igo instanceof Spider)) {
+    		if(igo instanceof Blossom) {
     			num--;
     		}
     	}
