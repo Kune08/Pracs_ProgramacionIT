@@ -232,7 +232,7 @@ public class Game extends JFrame implements KeyListener, ActionListener {
 						   for (int i = 0; i < jArray.length(); i++){
 							   JSONObject jObj = jArray.getJSONObject(i);
 							   String typeLabel = jObj.getString(TypeLabel);
-							   // Si el objeto es una instancia de Bee
+							   // Si el objeto es una instancia de Bee, creamos un Bee y lo metemos en la lista
 							   if(GameObjectsJSONFactory.getGameObject(jObj) instanceof Bee) {
 								   // Colocamos screenCounter a 2 para que la siguiente pantalla sea la 3 (ya que 
 								   // tenemos que seguir el orden de Fly, Bee, Spider)
@@ -255,7 +255,7 @@ public class Game extends JFrame implements KeyListener, ActionListener {
 							   else if(GameObjectsJSONFactory.getGameObject(jObj) instanceof Stone) {
 			                    	gObjs.add(new Stone(GameObjectsJSONFactory.getGameObject(jObj).getPosition(), GameObjectsJSONFactory.getGameObject(jObj).getValue(), GameObjectsJSONFactory.getGameObject(jObj).getLifes()));
 							   }    
-							   // Si el objeto es una instancia de RidingHood_2, ver explicación en Bee
+							   // Si el objeto es una instancia de RidingHood, ver explicación en Bee
 							   else if(GameObjectsJSONFactory.getGameObject(jObj) instanceof RidingHood) {
 								   ridingHood = new RidingHood(new Position(0,0), GameObjectsJSONFactory.getGameObject(jObj).getValue(), GameObjectsJSONFactory.getGameObject(jObj).getLifes(), gObjs);
 								   ridingHood.setPosition(GameObjectsJSONFactory.getGameObject(jObj).getPosition());
@@ -383,7 +383,7 @@ public class Game extends JFrame implements KeyListener, ActionListener {
         PuntosCaperucita();
         
         // Logic to change to a new screen.
-        // Minimo encontraremos 3 objetos, RidingHood, Stone y Fly, Bee o Spider
+        // Minimo encontraremos el numero que nos devuelva el método "numResiduos"
         if (processCell() <= restoBichos+1){
             screenCounter++;
             ridingHood.incLifes(1);
@@ -416,7 +416,7 @@ public class Game extends JFrame implements KeyListener, ActionListener {
                 beep.start();
                 gObjs.remove(gObj);
             }
-            // Mismo procedimiento que linea 337
+
             else if(!(gObj instanceof Bee) && !(gObj instanceof Spider) && !(gObj instanceof Fly) && !(gObj instanceof Stone)){
             	for(IGameObject bee : gObjs) {
             		if(bee instanceof Bee) {
@@ -434,7 +434,7 @@ public class Game extends JFrame implements KeyListener, ActionListener {
 	            	}
         		}
             }
-            // Mismo procedimiento que linea 337
+
             else if((gObj instanceof Spider) && !(gObj instanceof Fly) && !(gObj instanceof Stone)){
             	for(IGameObject spider : gObjs) {
             		if(spider instanceof Spider) {
@@ -452,7 +452,7 @@ public class Game extends JFrame implements KeyListener, ActionListener {
             	}
             	
             }
-            // Mismo procedimiento que linea 337
+
             else if((gObj instanceof Fly)){
             	for(IGameObject fly : gObjs) {
             		if(fly instanceof Fly) {

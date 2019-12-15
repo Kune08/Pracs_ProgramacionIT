@@ -47,6 +47,7 @@ public class Fly extends AbstractGameObject{
      * método.
      */
     
+    // Generamos un número aleatorio del 1 al 4 para seleccionar la direccion del siguiente movimiento
     public Position moveToNextPosition(){
     	Position position = new Position();
     	mov = (int)(Math.random()*4+1);
@@ -72,31 +73,6 @@ public class Fly extends AbstractGameObject{
        
         return position;       
     }  
-    
-    /*public Position getRandomPosition(int mX, int mY){
-        int x = (int)(mX * Math.random());
-        int y = (int)(mY * Math.random());
-        return new Position(x, y);
-    }*/
-    
-   /* private ArrayList<RidingHood_2> getBlossoms(){
-        ArrayList<RidingHood_2> blossoms = new ArrayList<RidingHood_2>();
-        for (IGameObject obj: gObjs){
-            if (obj instanceof RidingHood_2){
-                blossoms.add((RidingHood_2) obj);
-            }
-        }
-        return blossoms;
-    }
-    
-    private void approachTo(Position p){
-        if (position.x != p.x){
-            position.x = position.x > p.x? position.x-1:position.x+1;
-        }
-        if (position.y != p.y){
-            position.y = position.y > p.y? position.y-1:position.y+1;
-        }
-    } */
     
     public void printFly(){
         System.out.println(this.toJSONObject());

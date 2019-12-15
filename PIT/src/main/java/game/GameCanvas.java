@@ -26,6 +26,7 @@ public class GameCanvas extends JPanel {
     
     static IViewFactory viewFactory = new BoxesFactory();
     
+    // Seleccionar las vistas
     public static void setVistas(int vistas) {
     	switch(vistas) {
     	case 1: 
