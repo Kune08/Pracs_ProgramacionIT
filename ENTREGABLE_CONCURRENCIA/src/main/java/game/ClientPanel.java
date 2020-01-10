@@ -53,7 +53,7 @@ public class ClientPanel extends JPanel implements ActionListener {
     JPanel pnBoard;
     
     // Tabla de juegos cargados en memoria.    
-    HashMap<String, ArrayList<GameFrame>> downloadedGamesTable = new HashMap<>();
+    HashMap<String, ArrayList<GameFrame>> downloadedGamesTable = new HashMap<String, ArrayList<GameFrame>>();
     
     // Directorio de trabajo asumido en la práctica.
     public static final String WORKING_PATH = "src/main/resources/games";
@@ -104,7 +104,7 @@ public class ClientPanel extends JPanel implements ActionListener {
         cbReadyToPlay.addActionListener(this);           
     }
     
-    @Override
+   
     public void actionPerformed(ActionEvent ae){
         if (ae.getSource() == cbFilesToUpload){
             String sFile = (String) cbFilesToUpload.getSelectedItem();

@@ -36,7 +36,6 @@ public class GameLoadTask extends GameLoader implements Callable<ArrayList<GameF
      * @return
      * @throws Exception 
      */
-    @Override
     public ArrayList<GameFrame> call() throws Exception {
         
         // 1.- Carga los frames de fichero.

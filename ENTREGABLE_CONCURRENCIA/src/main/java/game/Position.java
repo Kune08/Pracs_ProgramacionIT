@@ -73,7 +73,6 @@ public class Position implements IToJsonObject {
         }
     }
 
-    @Override
     public JSONObject toJSONObject() {
         JSONObject jObj = new JSONObject();
         jObj.put(IToJsonObject.TypeLabel, this.getClass().getSimpleName());

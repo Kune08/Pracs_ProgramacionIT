@@ -32,7 +32,7 @@ public class ClientCanvas extends JPanel implements ActionListener {
     boolean squareOn = true;
     int xOffset, yOffset;
     
-    ConcurrentLinkedQueue<ArrayList<IGameObject>> frames = new ConcurrentLinkedQueue<>();
+    ConcurrentLinkedQueue<ArrayList<IGameObject>> frames = new ConcurrentLinkedQueue<ArrayList<IGameObject>>();
     
     Timer timer = new Timer(200, this);
     
@@ -84,7 +84,7 @@ public class ClientCanvas extends JPanel implements ActionListener {
         }
     }  
 
-    @Override
+   
     public void actionPerformed(ActionEvent ae) {
         repaint();
         if (frames.isEmpty() && timer.isRunning()){

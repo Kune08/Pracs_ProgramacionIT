@@ -53,8 +53,8 @@ public class AGame extends JFrame implements KeyListener, ActionListener {
     int tick = 200;
     
     // Game Variables
-    ConcurrentLinkedQueue<IGameObject> gObjs = new ConcurrentLinkedQueue<>();
-    ArrayList<GameFrame> frames = new ArrayList<>();
+    ConcurrentLinkedQueue<IGameObject> gObjs = new ConcurrentLinkedQueue<IGameObject>();
+    ArrayList<GameFrame> frames = new ArrayList<GameFrame>();
     
     Caperucita ridingHood = new Caperucita(new Position(0,0), 1, 1, gObjs);
     int screenCounter = 0;
@@ -98,7 +98,7 @@ public class AGame extends JFrame implements KeyListener, ActionListener {
     }
     
     private GameFrame getCurrentFrame(){
-        ArrayList<IGameObject> frame = new ArrayList<>();
+        ArrayList<IGameObject> frame = new ArrayList<IGameObject>();
         for (IGameObject gObj : gObjs){
             frame.add(GameObjectsFactory.getCopy(gObj));
         }
@@ -111,11 +111,11 @@ public class AGame extends JFrame implements KeyListener, ActionListener {
         return new GameFrame(-1, new ArrayList<IGameObject>());
     }
 
-    @Override
+
     public void keyTyped(KeyEvent ke) {
     }
 
-    @Override
+
     public void keyPressed(KeyEvent ke) {
         lastKey = ke.getKeyCode(); 
         if (lastKey == SPACE_KEY){
@@ -140,7 +140,7 @@ public class AGame extends JFrame implements KeyListener, ActionListener {
         }
     }
 
-    @Override
+
     public void keyReleased(KeyEvent ke) {
     }
 
@@ -148,7 +148,7 @@ public class AGame extends JFrame implements KeyListener, ActionListener {
      * Se invoca en cada tick de reloj
      * @param ae 
      */    
-    @Override
+
     public void actionPerformed(ActionEvent ae) {
         ridingHood.moveToNextPosition();
         setInLimits();

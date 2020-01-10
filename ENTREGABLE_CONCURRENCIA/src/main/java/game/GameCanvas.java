@@ -28,7 +28,7 @@ public class GameCanvas extends JPanel {
     int squareEdge = 20;
     boolean squareOn = true;
     
-    ConcurrentLinkedQueue<IGameObject> gObjects = new ConcurrentLinkedQueue<>();
+    ConcurrentLinkedQueue<IGameObject> gObjects = new ConcurrentLinkedQueue<IGameObject>();
     
     public GameCanvas(){}
     

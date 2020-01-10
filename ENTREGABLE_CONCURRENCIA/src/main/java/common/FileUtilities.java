@@ -45,7 +45,7 @@ public class FileUtilities {
     
     public static ArrayList<String> readFile(String fileName) throws FileNotFoundException {
         
-        ArrayList<String> frames = new ArrayList<>();
+        ArrayList<String> frames = new ArrayList<String>();
         
         String line;
         BufferedReader fileReader;

@@ -18,7 +18,7 @@ import org.json.JSONObject;
 public class GameFrame implements IToJsonObject {
     
     int frameNumber = 0;
-    ArrayList<IGameObject> items = new ArrayList<>();
+    ArrayList<IGameObject> items = new ArrayList<IGameObject>();
     
     public GameFrame(int fn, ArrayList<IGameObject> gObjs){
         this.frameNumber = fn;
@@ -43,7 +43,7 @@ public class GameFrame implements IToJsonObject {
         return items;
     }
 
-    @Override
+   
     public JSONObject toJSONObject() {
         JSONObject jObj = new JSONObject();
         jObj.put(IToJsonObject.TypeLabel, this.getClass().getSimpleName());        

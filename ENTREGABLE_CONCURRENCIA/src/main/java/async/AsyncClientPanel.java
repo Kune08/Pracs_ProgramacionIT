@@ -59,10 +59,10 @@ public class AsyncClientPanel extends JPanel implements IAsyncLoaderObserver, Ac
     ExecutorService fileLoader = null;
     
     // Tabla de juegos cargados en memoria.
-    HashMap<String, ArrayList<GameFrame>> downloadedGamesTable = new HashMap<>();
+    HashMap<String, ArrayList<GameFrame>> downloadedGamesTable = new HashMap<String, ArrayList<GameFrame>>();
     
     // Tabla de cargas solicitadas y aún no terminadas.
-    HashMap<String, Future<ArrayList<GameFrame>>> pendingRequests = new HashMap<>();    
+    HashMap<String, Future<ArrayList<GameFrame>>> pendingRequests = new HashMap<String, Future<ArrayList<GameFrame>>>();    
     
     // Directorio de trabajo asumido en la práctica.
     public static final String WORKING_PATH = "src/main/resources/games";
@@ -117,7 +117,6 @@ public class AsyncClientPanel extends JPanel implements IAsyncLoaderObserver, Ac
     }
     
     
-    @Override
     public void loadComplete(String key) {
         
         // Trazas en consola y área de texto
@@ -141,7 +140,6 @@ public class AsyncClientPanel extends JPanel implements IAsyncLoaderObserver, Ac
         cbReadyToPlay.insertItemAt(key, 0);
     }
 
-    @Override
     public void actionPerformed(ActionEvent ae) {
         if (ae.getSource() == cbFilesToUpload){
             String sFile = (String) cbFilesToUpload.getSelectedItem();

@@ -15,7 +15,7 @@ import org.json.JSONObject;
  */
 public class Caperucita extends AbstractGameObject {
     
-    ConcurrentLinkedQueue<IGameObject> gObjs = new ConcurrentLinkedQueue<>();
+    ConcurrentLinkedQueue<IGameObject> gObjs = new ConcurrentLinkedQueue<IGameObject>();
    
     Caperucita(Position position) {
         super(position);    
@@ -47,7 +47,7 @@ public class Caperucita extends AbstractGameObject {
      * @return posición en la que se encuentra después de ejecutarse el
      * método.
      */
-    @Override
+   
     public Position moveToNextPosition(){
         
         ArrayList<Blossom> blossoms = getBlossoms();
@@ -58,7 +58,7 @@ public class Caperucita extends AbstractGameObject {
     }  
     
     private ArrayList<Blossom> getBlossoms(){
-        ArrayList<Blossom> blossoms = new ArrayList<>();
+        ArrayList<Blossom> blossoms = new ArrayList<Blossom>();
         for (IGameObject obj: gObjs){
             if (obj instanceof Blossom){
                 blossoms.add((Blossom) obj);

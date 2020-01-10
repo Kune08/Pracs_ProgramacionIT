@@ -38,7 +38,7 @@ public class GameLoader {
      */
     public ArrayList<GameFrame> loadFramesFromFile() throws FileNotFoundException{
         ArrayList<String> sFrames = FileUtilities.readFile(WORKING_PATH + "/" + fileName);
-        ArrayList<GameFrame> gFrames = new ArrayList<>();
+        ArrayList<GameFrame> gFrames = new ArrayList<GameFrame>();
         for (String s : sFrames){
             GameFrame fr = new GameFrame(new JSONObject(s));
             gFrames.add(fr);

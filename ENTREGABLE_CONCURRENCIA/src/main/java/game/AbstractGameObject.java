@@ -57,14 +57,14 @@ public abstract class AbstractGameObject implements IGameObject, IToJsonObject{
     }
     
     
-    @Override
+
     public String toString(){
         return this.getClass().getSimpleName() + ", " + 
                position + 
                ", value: " + value + ", lifes: " + lifes + ", mode: " + mode;
     }
     
-    @Override
+
     public JSONObject toJSONObject() {
         JSONObject jObj = new JSONObject();
         jObj.put(IToJsonObject.TypeLabel, this.getClass().getSimpleName());
@@ -75,42 +75,38 @@ public abstract class AbstractGameObject implements IGameObject, IToJsonObject{
         return jObj;     
     }
 
-    @Override
+
     public Position getPosition() {
         return position;
     }
 
-    @Override
+
     public void setPosition(Position position) {
         this.position = position;       
     }
     
-     @Override
+
     public Position moveToNextPosition(){
         return position;       
     }  
 
-    @Override
+
     public int getValue() {
         return value;
     }
 
-    @Override
     public void setValue(int value) {
         this.value = value;
     }
 
-    @Override
     public int getLifes() {
         return lifes;
     }
 
-    @Override
     public void incLifes(int value) {
         lifes += value;
     }
     
-    @Override
     public void setGameMode(int mode){
         this.mode = mode;
     }
