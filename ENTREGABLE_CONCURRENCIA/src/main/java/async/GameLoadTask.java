@@ -10,6 +10,10 @@ import game.GameLoader;
 import java.util.ArrayList;
 import java.util.concurrent.Callable;
 
+import org.json.JSONObject;
+
+import common.FileUtilities;
+
 /**
  *
  * @author juanangel
@@ -37,10 +41,12 @@ public class GameLoadTask extends GameLoader implements Callable<ArrayList<GameF
      * @throws Exception 
      */
     public ArrayList<GameFrame> call() throws Exception {
-        
+    	
         // 1.- Carga los frames de fichero.
+    	ArrayList<GameFrame> gFrames = super.loadFramesFromFile();
         // 2.- Invoca método loadComplete del cliente.
+    	client.loadComplete(fileName);
         System.out.println("call " + fileName);
-        return null;
+        return gFrames;
     }     
 }

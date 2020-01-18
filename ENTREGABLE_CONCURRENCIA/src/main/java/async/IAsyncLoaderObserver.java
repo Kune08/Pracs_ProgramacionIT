@@ -22,4 +22,5 @@ public interface IAsyncLoaderObserver {
      * @param key permite identificar el servicio solicitado.
      */
     public void loadComplete(String key);
+    public String getWorkingPATH();
 }

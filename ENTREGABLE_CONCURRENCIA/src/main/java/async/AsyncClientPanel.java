@@ -7,6 +7,8 @@ package async;
 
 import game.ClientCanvas;
 import game.GameFrame;
+import game.GameLoader;
+
 import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.Dimension;
@@ -16,7 +18,9 @@ import java.awt.event.ActionListener;
 import java.io.File;
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.concurrent.ExecutionException;
 import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
 import java.util.concurrent.Future;
 import java.util.concurrent.TimeUnit;
 import javax.swing.BorderFactory;
@@ -37,8 +41,7 @@ public class AsyncClientPanel extends JPanel implements IAsyncLoaderObserver, Ac
      JLabel lbId;
     
     // Superficie de dibujo.
-    ClientCanvas canvas = new ClientCanvas(320, 16);
-    // ClientCanvasScheduled canvas; // = new ClientCanvasScheduled(320, 16);
+     ClientCanvasScheduled canvas = new ClientCanvasScheduled(320, 16);
     
     // Mensajes y trazas.
     JTextArea txMessages;
@@ -56,7 +59,7 @@ public class AsyncClientPanel extends JPanel implements IAsyncLoaderObserver, Ac
     JPanel pnBoard;
     
     // Ejecutor para cargas de ficheros.
-    ExecutorService fileLoader = null;
+    ExecutorService fileLoader = Executors.newSingleThreadExecutor();
     
     // Tabla de juegos cargados en memoria.
     HashMap<String, ArrayList<GameFrame>> downloadedGamesTable = new HashMap<String, ArrayList<GameFrame>>();
@@ -81,10 +84,10 @@ public class AsyncClientPanel extends JPanel implements IAsyncLoaderObserver, Ac
         String filesList [] = file.list();
         cbFilesToUpload = new JComboBox(filesList);
         cbReadyToPlay = new JComboBox();
-        lbFilesToUpload = new JLabel("Load File");
-        lbReadyToPlay = new JLabel("See Game");   
+        lbFilesToUpload = new JLabel("Cargar archivo");
+        lbReadyToPlay = new JLabel("Ver juego");   
         
-        canvas = new ClientCanvas(width, squareEdge);
+        canvas = new ClientCanvasScheduled(width, squareEdge);
         canvas.setBorder(BorderFactory.createLineBorder(Color.darkGray));
         
         setLayout(new BorderLayout());
@@ -120,8 +123,8 @@ public class AsyncClientPanel extends JPanel implements IAsyncLoaderObserver, Ac
     public void loadComplete(String key) {
         
         // Trazas en consola y área de texto
-        System.out.println("Client " + id + "setFileContents received ---> " + key);
-        txMessages.append("Client " + id + "setFileContents received ---> " + key + "\n");
+        System.out.println("Cliente " + id + " | setFileContents received ---> " + key);
+        txMessages.append("Cliente " + id + " | setFileContents received ---> " + key + "\n");
             
         // Coordinación entre este método y el manejador de eventos de
         // cbReadyToPlay.
@@ -144,14 +147,15 @@ public class AsyncClientPanel extends JPanel implements IAsyncLoaderObserver, Ac
         if (ae.getSource() == cbFilesToUpload){
             String sFile = (String) cbFilesToUpload.getSelectedItem();
             if (!downloadedGamesTable.containsKey(sFile)){   
-                System.out.println("Loading " + sFile + "  ");                       
-                txMessages.append("Loading ... " +  sFile + "\n");   
+                System.out.println("Cargando " + sFile + "  ");                       
+                txMessages.append("Cargando ... " +  sFile + "\n");   
                 
                 // 1.- Modifique el código para solicitar al ejecutor que ejecute 
                 //     tarea para cargar el fichero escogido.
-                Future<ArrayList<GameFrame>> future = null; 
+                Future<ArrayList<GameFrame>> future = fileLoader.submit(new GameLoadTask(this,sFile));
                     
                 // 2.- Guarde el futuro en pendingRequest asociado al nombre del fichero.
+                pendingRequests.put(sFile, future);
             }
             else{
                 System.out.println(sFile + " is already loaded");   
@@ -173,11 +177,19 @@ public class AsyncClientPanel extends JPanel implements IAsyncLoaderObserver, Ac
                 
                 // 2.- Obtenemos el futuro asociado al fichero y lo eliminamos de la tabla.
                 Future<ArrayList<GameFrame>> f = pendingRequests.remove(key);
+                
             
                 // 3.- Obtenemos el resultado asociado al futuro.
-                ArrayList<GameFrame> movie = null;
+                try {
+					downloadedGamesTable.put(key, f.get());
+				} catch (InterruptedException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				} catch (ExecutionException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
                 
-                // 4.- Insertamos el resultado en la tabla de movies listos para reproducir.
             
                 // Trazas en consola y área de texto 
                 System.out.println(key + " has is ready");
@@ -185,7 +197,6 @@ public class AsyncClientPanel extends JPanel implements IAsyncLoaderObserver, Ac
             }
                
             String sFile = (String) cbFilesToUpload.getSelectedItem();
-            
             // Obtención del juego seleccionado.
             ArrayList<GameFrame> movie = downloadedGamesTable.get(sFile);  
             
@@ -206,6 +217,10 @@ public class AsyncClientPanel extends JPanel implements IAsyncLoaderObserver, Ac
             }
             this.fileLoader = fileLoader;
         }
+    }
+    
+    public String getWorkingPATH() {
+    	return WORKING_PATH;
     }
     
 }

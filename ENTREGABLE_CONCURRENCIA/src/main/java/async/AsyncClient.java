@@ -71,16 +71,28 @@ public class AsyncClient extends JFrame {
         itThreeThreads.addActionListener(
 				new ActionListener(){       
 					public void actionPerformed(ActionEvent ae){
-						System.out.println("3 HILOS");
 						fileLoader = Executors.newFixedThreadPool(3);
+						for(AsyncClientPanel acp : client) {
+							try {
+								acp.setLoader(fileLoader);
+							} catch (InterruptedException ex) {
+								Logger.getLogger(AsyncClient.class.getName()).log(Level.SEVERE, null, ex);
+							}
+						}
 	                }
 				}
 			);
         itFiveThreads.addActionListener(
 				new ActionListener(){       
 					public void actionPerformed(ActionEvent ae){
-						System.out.println("5 HILOS");
 						fileLoader = Executors.newFixedThreadPool(5);
+						for(AsyncClientPanel acp : client) {
+							try {
+								acp.setLoader(fileLoader);
+							} catch (InterruptedException ex) {
+								Logger.getLogger(AsyncClient.class.getName()).log(Level.SEVERE, null, ex);
+							}
+						}
 	                }
 				}
 			);
@@ -88,8 +100,14 @@ public class AsyncClient extends JFrame {
         itSingleThreaded.addActionListener(
 				new ActionListener(){       
 					public void actionPerformed(ActionEvent ae){
-						System.out.println("1 HILO");
 						fileLoader = Executors.newSingleThreadExecutor();
+						for(AsyncClientPanel acp : client) {
+							try {
+								acp.setLoader(fileLoader);
+							} catch (InterruptedException ex) {
+								Logger.getLogger(AsyncClient.class.getName()).log(Level.SEVERE, null, ex);
+							}
+						}
 	                }
 				}
 			);
@@ -97,8 +115,14 @@ public class AsyncClient extends JFrame {
         itFlexiblePool.addActionListener(
 				new ActionListener(){       
 					public void actionPerformed(ActionEvent ae){
-						System.out.println("CACHED");
 						fileLoader = Executors.newCachedThreadPool();
+						for(AsyncClientPanel acp : client) {
+							try {
+								acp.setLoader(fileLoader);
+							} catch (InterruptedException ex) {
+								Logger.getLogger(AsyncClient.class.getName()).log(Level.SEVERE, null, ex);
+							}
+						}
 	                }
 				}
 			);
