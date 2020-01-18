@@ -6,14 +6,25 @@
 package async;
 
 import java.awt.GridLayout;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import java.io.File;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+
+import javax.swing.JFileChooser;
 import javax.swing.JFrame;
 import javax.swing.JMenu;
 import javax.swing.JMenuBar;
 import javax.swing.JMenuItem;
+
+import org.json.JSONObject;
+
+import common.FileUtilities;
+import common.IToJsonObject;
+import game.IGameObject;
 
 public class AsyncClient extends JFrame {
     
@@ -25,7 +36,7 @@ public class AsyncClient extends JFrame {
     
     AsyncClientPanel client[] = new AsyncClientPanel[4];
     
-    ExecutorService fileLoader;
+    ExecutorService fileLoader = Executors.newSingleThreadExecutor();
     
     JMenuBar barraMenu;
     JMenu mSeleccionEjecutor;
@@ -40,6 +51,58 @@ public class AsyncClient extends JFrame {
                 
         getContentPane().setLayout(new GridLayout(1,4));
         
+        mSeleccionEjecutor = new JMenu("Load File Executor");
+        barraMenu = new JMenuBar();
+        mFixedPool = new JMenu("Fixed Pool");
+        itThreeThreads = new JMenuItem("Three Threads");
+        itFiveThreads = new JMenuItem("Five Threads");
+        itSingleThreaded = new  JMenuItem("Single Thread");
+        itFlexiblePool  = new  JMenuItem("Resizable Pool");
+        
+        barraMenu.add(mSeleccionEjecutor);
+        mSeleccionEjecutor.add(itSingleThreaded);
+        mSeleccionEjecutor.add(mFixedPool);
+        mSeleccionEjecutor.add(itFlexiblePool);
+        mFixedPool.add(itThreeThreads);
+        mFixedPool.add(itFiveThreads);
+        
+        setJMenuBar(barraMenu);
+
+        itThreeThreads.addActionListener(
+				new ActionListener(){       
+					public void actionPerformed(ActionEvent ae){
+						System.out.println("3 HILOS");
+						fileLoader = Executors.newFixedThreadPool(3);
+	                }
+				}
+			);
+        itFiveThreads.addActionListener(
+				new ActionListener(){       
+					public void actionPerformed(ActionEvent ae){
+						System.out.println("5 HILOS");
+						fileLoader = Executors.newFixedThreadPool(5);
+	                }
+				}
+			);
+        
+        itSingleThreaded.addActionListener(
+				new ActionListener(){       
+					public void actionPerformed(ActionEvent ae){
+						System.out.println("1 HILO");
+						fileLoader = Executors.newSingleThreadExecutor();
+	                }
+				}
+			);
+        
+        itFlexiblePool.addActionListener(
+				new ActionListener(){       
+					public void actionPerformed(ActionEvent ae){
+						System.out.println("CACHED");
+						fileLoader = Executors.newCachedThreadPool();
+	                }
+				}
+			);
+        
         for (int i = 0; i < client.length; i++){
             client[i] = new AsyncClientPanel(i, CANVAS_WIDTH, BOX_SIZE);       
             getContentPane().add(client[i]);
@@ -52,7 +115,6 @@ public class AsyncClient extends JFrame {
         this.setFocusable(true);
         
         // Set default loader for panels.
-        ExecutorService fileLoader = Executors.newFixedThreadPool(3);
         for (AsyncClientPanel panel : client){
             try {
                 panel.setLoader(fileLoader);
