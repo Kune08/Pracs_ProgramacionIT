@@ -158,8 +158,8 @@ public class AsyncClientPanel extends JPanel implements IAsyncLoaderObserver, Ac
                 pendingRequests.put(sFile, future);
             }
             else{
-                System.out.println(sFile + " is already loaded");   
-                txMessages.append(sFile + " is already loaded\n");
+                System.out.println(sFile + " ya está cargado");   
+                txMessages.append(sFile + " ya está cargado\n");
             }
             requestFocusInWindow();            
         }
@@ -170,7 +170,7 @@ public class AsyncClientPanel extends JPanel implements IAsyncLoaderObserver, Ac
             if (nFiles != cbReadyToPlay.getItemCount()){
                 
                 nFiles = cbReadyToPlay.getItemCount();
-                System.out.println("cbReadyToPlay: getting movie");
+                System.out.println("cbReadyToPlay: Obteniendo pelicula");
                 
                 // 1.- Obtenemos clave para obtener el futuro.
                 String key = (String) cbReadyToPlay.getItemAt(0);
@@ -192,8 +192,8 @@ public class AsyncClientPanel extends JPanel implements IAsyncLoaderObserver, Ac
                 
             
                 // Trazas en consola y área de texto 
-                System.out.println(key + " has is ready");
-                txMessages.append (key + " has is ready\n");
+                System.out.println(key + " ha sido cargado");
+                txMessages.append (key + " ha sido cargado\n");
             }
                
             String sFile = (String) cbFilesToUpload.getSelectedItem();
@@ -202,8 +202,8 @@ public class AsyncClientPanel extends JPanel implements IAsyncLoaderObserver, Ac
             
             // Envío al canvas para su reproducción.
             canvas.playMovie(movie);
-            System.out.println(sFile + " is being reproduced");
-            txMessages.append(sFile + " is being reproduced\n");
+            System.out.println(sFile + " se está reproduciendo");
+            txMessages.append(sFile + " se está reproduciendo\n");
             requestFocusInWindow();     
         }
     }

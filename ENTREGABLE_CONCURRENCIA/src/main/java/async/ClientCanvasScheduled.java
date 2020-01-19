@@ -92,7 +92,7 @@ public class ClientCanvasScheduled extends JPanel implements ActionListener {
     public void actionPerformed(ActionEvent ae) {
         repaint();
         if (frames.isEmpty()){
-            System.out.println("ClientCanvas. End of Movie");
+            System.out.println("Fin de la pelicula");
         }}}
     
     

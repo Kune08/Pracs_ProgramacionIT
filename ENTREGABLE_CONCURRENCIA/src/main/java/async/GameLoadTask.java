@@ -46,7 +46,7 @@ public class GameLoadTask extends GameLoader implements Callable<ArrayList<GameF
     	ArrayList<GameFrame> gFrames = super.loadFramesFromFile();
         // 2.- Invoca método loadComplete del cliente.
     	client.loadComplete(fileName);
-        System.out.println("call " + fileName);
+        System.out.println("Llamando a " + fileName);
         return gFrames;
     }     
 }

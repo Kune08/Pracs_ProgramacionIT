@@ -47,7 +47,7 @@ public class AsyncClient extends JFrame {
     
     public AsyncClient() throws Exception{
 
-        super("Cliente v3");
+        super("Cliente | Andres Ruz Nieto");
                 
         getContentPane().setLayout(new GridLayout(1,4));
         
