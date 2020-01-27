@@ -12,6 +12,7 @@ import java.awt.Graphics;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.ArrayList;
+import java.util.TimerTask;
 import java.util.concurrent.ConcurrentLinkedQueue;
 import java.util.concurrent.Executors;
 import java.util.concurrent.ScheduledExecutorService;
@@ -27,7 +28,7 @@ import views.boxes.BoxesFactory;
  *
  * @author juanangel
  */
-public class ClientCanvasScheduled extends JPanel implements ActionListener {
+public class ClientCanvasScheduled extends JPanel{
       
     IViewFactory viewFactory = new BoxesFactory();
     
@@ -37,18 +38,20 @@ public class ClientCanvasScheduled extends JPanel implements ActionListener {
     boolean squareOn = true;
     int xOffset, yOffset;
     int y=0;
+    boolean enMarcha = false;
     ConcurrentLinkedQueue<ArrayList<IGameObject>> frames = new ConcurrentLinkedQueue<ArrayList<IGameObject>>();
     
-    private final ScheduledExecutorService time = Executors.newScheduledThreadPool(1);
+    private final ScheduledExecutorService time = Executors.newSingleThreadScheduledExecutor();
     
     public ClientCanvasScheduled(){}    
     public ClientCanvasScheduled(int canvasEdge, int squareEdge){
         this.squareEdge = squareEdge;
         this.canvasEdge = canvasEdge;
-        time.scheduleAtFixedRate(h , 0, 200, TimeUnit.MILLISECONDS);
+        time.scheduleAtFixedRate(r , 0, 200, TimeUnit.MILLISECONDS);
       
     }    
     public void playMovie(ArrayList<GameFrame> movie){
+    	enMarcha = true;
         if (movie != null){
             for (GameFrame f: movie){
                 frames.add(f.getObjects());
@@ -83,17 +86,18 @@ public class ClientCanvasScheduled extends JPanel implements ActionListener {
             }
         }
     }  
-    Runnable h = new Runnable() {
+    Runnable r = new Runnable() {
 	    public void run() {
 	        repaint();
+	        if(frames.isEmpty() && enMarcha){
+	            System.out.println("Fin de la pelicula");
+	            enMarcha = false;
+	        }
       
     }};
     
-    public void actionPerformed(ActionEvent ae) {
-        repaint();
-        if (frames.isEmpty()){
-            System.out.println("Fin de la pelicula");
-        }}}
+
+    }
     
     
 

@@ -173,6 +173,7 @@ public class AsyncClientPanel extends JPanel implements IAsyncLoaderObserver, Ac
                 System.out.println("cbReadyToPlay: Obteniendo pelicula");
                 
                 // 1.- Obtenemos clave para obtener el futuro.
+                
                 String key = (String) cbReadyToPlay.getItemAt(0);
                 
                 // 2.- Obtenemos el futuro asociado al fichero y lo eliminamos de la tabla.
@@ -196,7 +197,7 @@ public class AsyncClientPanel extends JPanel implements IAsyncLoaderObserver, Ac
                 txMessages.append (key + " ha sido cargado\n");
             }
                
-            String sFile = (String) cbFilesToUpload.getSelectedItem();
+            String sFile = (String) cbReadyToPlay.getSelectedItem();
             // Obtención del juego seleccionado.
             ArrayList<GameFrame> movie = downloadedGamesTable.get(sFile);  
             
